@@ -23,10 +23,6 @@ class Boo extends MY_Controller {
         // $str2="\n图书->   计算机类->PHP\n书名：《PHP软件开发》";
         // $str3="\n价格：￥59/本";
         // $this->assign("title","使用变量修饰方法");
-        // $this->assign("str",$str1.$str2.$str3);
-
-
-
-
+        // $this->assign("str",$str1.$str2.$str3);  
     }   
 } 

@@ -4,6 +4,19 @@
 */
 class User extends CI_Controller
 {
+    public function index()
+    {
+        // $list=array(
+        //     array('name'=>'jack','password'=>11111,'email'=>'sda@qq.com'),
+        //     array('name'=>'jack2','password'=>11111,'email'=>'sda2@qq.com'),
+        //     array('name'=>'jack3','password'=>11111,'email'=>'sda3@qq.com')
+        //     ); 
+        // $data['list'] = $list;
+        //$this->load->vars($data);
+        $this->load->helper('url');
+        $this->load->helper('form');
+        $this->cismarty->display('client/user/login.html');
+    }    
     public function test()
     {
         $test="hahahahahahahahah";
@@ -25,6 +38,7 @@ class User extends CI_Controller
     public function login()
     {   
         $this->load->helper(array('url','form'));
+        $this->load->database();
         // $login=$_POST['login']; 
         // $register=$_POST['register'];
         $email = $_POST['email'];
@@ -38,23 +52,23 @@ class User extends CI_Controller
 
         if($num){
             if($num['isadmin']==1){
-                //echo "admin登陆成功";   
+                echo "admin登陆成功";   
                 $this->load->model('User_model');
                 $data['list']=$this->User_model->getAll();
-                $this->load->view('admin_view',$data);
+                //$this->load->view('admin_view',$data);
             }else{
-                //echo "user登陆成功";
-                $this->load->view('user_view');
+                echo "user登陆成功";
+                //$this->load->view('user_view');
             }  
         }else{  
-            //echo "密码错误或用户名不正确";
-            echo "<script>alert('密码错误或用户名不正确'); </script>";
-            $this->load->view('user_login_view');
+            echo "密码错误或用户名不正确";
+            //echo "<script>alert('密码错误或用户名不正确'); </script>";
+            //$this->load->view('user_login_view');
         }
     }
     public function register(){ 
-        $this->load->helper(array('form', 'url'));
-        $this->load->view('register_view');
+        //$this->load->helper(array('form', 'url'));
+        $this->cismarty->display('client/user/register.html');
     }
 
     public function registercheck()
@@ -79,7 +93,7 @@ class User extends CI_Controller
         if ($this->form_validation->run() == FALSE)
         {
             echo "<script>alert('不正确'); </script>";
-            $this->load->view('register_view');
+            $this->cismarty->display('client/user/register.html');
         }
         else
         {
@@ -87,12 +101,6 @@ class User extends CI_Controller
         }
     }
 
-    // public function register()
-    // {
-    //     $this->load->helper(array('url','form'));
-    //     //$this->load->helper('form');        
-    //     $this->load->view('register_view');
-    // }
     public function add()
     {
         $this->load->database();
@@ -104,23 +112,5 @@ class User extends CI_Controller
         }
         $this->load->helper('url');
         $this->load->view('user');
-    }
-    // public function insert()
-    // {
-    //     var_dump($this->input->post('name'));
-    // }
-    public function index()
-    {
-        // $list=array(
-        //     array('name'=>'jack','password'=>11111,'email'=>'sda@qq.com'),
-        //     array('name'=>'jack2','password'=>11111,'email'=>'sda2@qq.com'),
-        //     array('name'=>'jack3','password'=>11111,'email'=>'sda3@qq.com')
-        //     );
-        
-        // $data['list'] = $list;
-        //$this->load->vars($data);
-        $this->load->helper('url');
-        $this->load->helper('form');
-        $this->cismarty->display('client/user/login.html');
     }
 }
