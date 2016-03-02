@@ -13,8 +13,8 @@ class User extends CI_Controller
         //     ); 
         // $data['list'] = $list;
         //$this->load->vars($data);
-        $this->load->helper('url');
-        $this->load->helper('form');
+        // $this->load->helper('url');
+        // $this->load->helper('form');
         $this->cismarty->display('client/user/login.html');
     }    
     public function test()
@@ -51,19 +51,23 @@ class User extends CI_Controller
         //var_dump($num);
 
         if($num){
-            if($num['isadmin']==1){
-                echo "admin登陆成功";   
-                $this->load->model('User_model');
-                $data['list']=$this->User_model->getAll();
-                //$this->load->view('admin_view',$data);
+            if($num['isadmin'] == null){
+                echo "登陆成功";   
+                // $this->load->model('User_model');
+                // $data['list']=$this->User_model->getAll();
+                // $this->load->view('admin_view',$data);
+                $this->cismarty->display('client/user/usercenter.html');
             }else{
-                echo "user登陆成功";
+                //echo "user登陆成功";
+                echo "密码错误或用户名不正确"; 
+                $this->cismarty->display('client/user/login.html');
                 //$this->load->view('user_view');
             }  
         }else{  
             echo "密码错误或用户名不正确";
             //echo "<script>alert('密码错误或用户名不正确'); </script>";
-            //$this->load->view('user_login_view');
+            //$this->load->view('client/user/login');
+            $this->cismarty->display('client/user/login.html');
         }
     }
     public function register(){ 
