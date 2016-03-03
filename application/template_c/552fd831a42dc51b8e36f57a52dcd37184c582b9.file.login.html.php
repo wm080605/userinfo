@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-02 17:24:41
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 16:11:39
          compiled from "/var/workspace/userinfo/application/views/client/user/login.html" */ ?>
-<?php /*%%SmartyHeaderCode:157538302556d6b1597dc997-89421491%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:187461086256d7f1bb56cf55-42647446%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '552fd831a42dc51b8e36f57a52dcd37184c582b9' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/login.html',
-      1 => 1456910678,
+      1 => 1456988849,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '157538302556d6b1597dc997-89421491',
+  'nocache_hash' => '187461086256d7f1bb56cf55-42647446',
   'function' => 
   array (
   ),
@@ -19,8 +19,9 @@ $_smarty_tpl->decodeProperties(array (
 )); /*/%%SmartyHeaderCode%%*/?>
 <?php $_template = new Smarty_Internal_Template('client/share/_header.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>
-<!-- {%  form_open('/client/user/login','class="form-horizontal"');%} -->
-<form class="form-horizontal" action="user/login" method="post">
+<?php echo form_open('/client/user/login','class="form-horizontal"');?>
+
+<!-- <form class="form-horizontal" action="user/login" method="post"> -->
     <div class="form-group">
         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
@@ -35,10 +36,11 @@ $_smarty_tpl->decodeProperties(array (
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Sign in</button>
-            <a class="btn btn-primary" role="button" href="user/register">注册</a>   
+            <button type="submit" class="btn btn-primary">登 陆</button>
+            <a class="btn btn-primary" role="button" href="user/register">注 册</a>   
         </div>
     </div>
-</form>
+<?php echo form_close();?>
+
 <?php $_template = new Smarty_Internal_Template('client/share/_footer.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>

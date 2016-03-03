@@ -1,0 +1,10 @@
+{%include file='client/share/_header.html'%}
+{%form_open_multipart('client/user/useradd')%}
+    <ul>
+        {%foreach from=$info key=k item =i%}
+        <li>{%$k%}:{%$i%}</li>  
+        {%/foreach%}
+    </ul>
+    <input type="submit" value="submit"/>
+{%form_close()%}
+{%include file='client/share/_footer.html'%}

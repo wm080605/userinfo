@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>管理中心</title>
-    <script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css">
-</head>
-<body>
+{%include file='admin/share/_header.html'%}
 <center>
     <table border="1" class="table table-striped">
         <tr>
@@ -16,17 +9,16 @@
             <td>CreateTime</td>
             <td>UpdateTime</td>
         </tr>
-        <?php foreach($list->result() as $item):?>
+        {%foreach from=$result item=item%}
         <tr>
-            <td><?=$item->id?></td>
-            <td><?=$item->name?></td>
-            <td><?=$item->password?></td>
-            <td><?=$item->email?></td>
-            <td><?=$item->createTS?></td>
-            <td><?=$item->updateTS?></td>
+            <td>{%$item.id%}</td>
+            <td>{%$item.name%}</td>
+            <td>{%$item.password%}</td>
+            <td>{%$item.email%}</td>
+            <td>{%$item.createTS%}</td>
+            <td>{%$item.updateTS%}</td>
         </tr>
-    <?php endforeach;?>
+        {%/foreach%}
     </table>
 </center>
-</body>
-</html>
+{%include file='admin/share/_footer.html'%}
