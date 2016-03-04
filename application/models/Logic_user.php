@@ -22,6 +22,9 @@ class Logic_user extends CI_Model
     }
     public function add()
     {
-        $sql = "INSERT INTO user (name,email,password) VALUES ('')";
+        $this->load->model('Service_user');
+        $info = $this->Service_user->register_confirm();
+        $sql = "INSERT INTO user (name,email,password,createTS) VALUES ('$info[username]','$info[email]','$info[password]',now())";
+        $this->db->query($sql);
     }
 }

@@ -75,37 +75,13 @@ class User extends CI_Controller
             $this->load->model('Service_user');
             $info = $this->Service_user->register_confirm();
             //var_dump($info);
+            // $sql = "INSERT INTO user (name,email,password) VALUES ('$info[username]','$info[email]','$info[password]')";
+            // //var_dump($info);
+            // $this->db->query($sql);
+            $this->load->model('Logic_user');
+            $this->Logic_user->add();
             $this->cismarty->assign('info',$info);
             $this->cismarty->display('client/user/registerconfirm.html');
         }
-    }
-
-    public function useradd()
-    {
-        // $this->load->model('Service_user');
-        // $info = $this->Service_user->register_confirm(); 
-        // $info = file_get_contents('');
-        // var_dump($info);
-        // $name = $info['name'];
-        // var_dump($name);
-        // $sql =" insert into user(name,password,email) values('$name','$password',
-        //             '$email')";
-        // $bool =$this->db->query($sql);
-        // echo "ok";
-        //$this->cismarty->display('client/user/usercenter.html');
-        // $info = $this->input->post();
-        // var_dump($info);
-        // // $name = $info=>name;
-        // $sql =" insert into user(name,password,email) values('$name','$password',
-        //             '$email')";
-        // $bool =$this->db->query($sql);
-        // $this->cismarty->display('client/user/usercenter.html');
-
-        // if($bool){
-        //     echo"受影响行数". $this->db->affected_rows();
-        //     echo"ID". $this->db->insert_id();
-        // }
-        // $this->load->helper('url');
-        // $this->load->view('user');
     }
 }
