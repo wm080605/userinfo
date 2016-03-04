@@ -8,8 +8,8 @@ class Logic_user extends CI_Model
         $num = $this->db->query($sql);//执行sql查询
         $result = $num->row_array();//获取记录数
         //var_dump($num);
-        
         return $result;
+        //return count($result) > 0;
     }
     public function get_all()
     {
@@ -19,5 +19,9 @@ class Logic_user extends CI_Model
         $result = $num->result_array();
 
         return $result;
+    }
+    public function add()
+    {
+        $sql = "INSERT INTO user (name,email,password) VALUES ('')";
     }
 }

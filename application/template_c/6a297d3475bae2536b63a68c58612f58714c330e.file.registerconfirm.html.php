@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 17:52:41
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 16:37:35
          compiled from "/var/workspace/userinfo/application/views/client/user/registerconfirm.html" */ ?>
-<?php /*%%SmartyHeaderCode:41114301156d809697cec63-63718285%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:21989848256d9494fa6cee1-71713842%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6a297d3475bae2536b63a68c58612f58714c330e' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/registerconfirm.html',
-      1 => 1456997511,
+      1 => 1457080640,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '41114301156d809697cec63-63718285',
+  'nocache_hash' => '21989848256d9494fa6cee1-71713842',
   'function' => 
   array (
   ),
@@ -19,7 +19,7 @@ $_smarty_tpl->decodeProperties(array (
 )); /*/%%SmartyHeaderCode%%*/?>
 <?php $_template = new Smarty_Internal_Template('client/share/_header.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>
-<?php echo form_open_multipart('client/user/useradd');?>
+<?php echo form_open('client/user/useradd');?>
 
     <ul>
         <?php  $_smarty_tpl->tpl_vars['i'] = new Smarty_Variable;
@@ -34,7 +34,8 @@ if ($_smarty_tpl->_count($_from) > 0){
 </li>  
         <?php }} ?>
     </ul>
-    <input type="submit" value="submit"/>
+    <input type="submit" class="btn btn-primary" value="确认"/>
+    <a class="btn btn-primary" role="button" href="register">返 回</a> 
 <?php echo form_close();?>
 
 <?php $_template = new Smarty_Internal_Template('client/share/_footer.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);

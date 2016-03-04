@@ -16,28 +16,28 @@ class User extends CI_Controller
     }    
     public function login()
     {
-
-        // $email = $this->input->get('email', true);
-        // $password = $this->input->get('password',true);
+        // $email = $this->input->post('email', true);
+        // $password = $this->input->post('password',true);
         
         $this->load->model('Service_user');
         $result = $this->Service_user->login_check();
-        //var_dump($result);
+        // var_dump($result);
 
         if($result ){
-            if($result['isadmin'] == 1)
+            if($result['isadmin'] != NULL)
             {
                 $this->load->model('Service_user');
                 $result = $this->Service_user->admin_center();
                 //var_dump($result);  
                 $this->cismarty->assign("result",$result);
+                $this->cismarty->assign('login_failed',FALSE);
                 $this->cismarty->display('admin/admincenter.html');
             }else{
                 // echo "user登陆成功";   
                 // $this->load->model('User_model');
                 // $data['list']=$this->User_model->getAll();
                 // $this->load->view('admin_view',$data);
-                //$this->cismarty->assign('login_failed',false);
+                $this->cismarty->assign('login_failed',FALSE);
                 $this->cismarty->display('client/user/usercenter.html');
                 //echo "user登陆成功";
                 // echo "admin登陆成功"; 
@@ -48,7 +48,7 @@ class User extends CI_Controller
             // echo "密码错误或用户名不正确";
             //echo "<script>alert('密码错误或用户名不正确'); </script>";
             //$this->load->view('client/user/login');
-            //$this->cismarty->assign('login_failed',true);
+            $this->cismarty->assign('login_failed',TRUE);
             $this->cismarty->display('client/user/login.html');
         }
     }
@@ -60,35 +60,39 @@ class User extends CI_Controller
 
     public function registercheck()
     {
-        
-
         $this->load->model('Service_user');
+        $res = $this->Service_user->do_upload();
+        //var_dump($res);
         $result=$this->Service_user->register_check();
-        if ($result == FALSE)
+        //var_dump($result);
+        if ($result == FALSE || $res == FALSE)
         {
             //echo "<script>alert('不正确'); </script>";
             $this->cismarty->display('client/user/register.html');
         }
         else
         {
-            $info = $this->input->post();
-            var_dump($info);
+            $this->load->model('Service_user');
+            $info = $this->Service_user->register_confirm();
+            //var_dump($info);
             $this->cismarty->assign('info',$info);
             $this->cismarty->display('client/user/registerconfirm.html');
         }
     }
-    public function upload()
-    {
-        $config['upload_path']      = './uploads/';
-        $config['allowed_types']    = 'gif|jpg|png';
-        $config['max_size']     = 100;
-        $config['max_width']        = 1024;
-        $config['max_height']       = 768;
 
-        $this->load->library('upload', $config);
-    }
     public function useradd()
     {
+        // $this->load->model('Service_user');
+        // $info = $this->Service_user->register_confirm(); 
+        // $info = file_get_contents('');
+        // var_dump($info);
+        // $name = $info['name'];
+        // var_dump($name);
+        // $sql =" insert into user(name,password,email) values('$name','$password',
+        //             '$email')";
+        // $bool =$this->db->query($sql);
+        // echo "ok";
+        //$this->cismarty->display('client/user/usercenter.html');
         // $info = $this->input->post();
         // var_dump($info);
         // // $name = $info=>name;

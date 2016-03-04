@@ -20,17 +20,6 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->database();
-		$data=array(
-			'name'=>'lucy',
-			'password'=>'1234',
-			'email'=>'usaj@qwq.cm'
-			);
-		//$this->db->delete('user',array('id'=>13));
-		//$this->db->update('user',$data,array('id'=>3));
-		// $bool=$this->db->insert('user',$data);
-		// var_dump($bool);
-		//echo $this->db->last_query();
 		$this->load->view('welcome_message');
 	}
 }

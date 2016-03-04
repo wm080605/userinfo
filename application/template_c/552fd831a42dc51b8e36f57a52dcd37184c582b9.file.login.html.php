@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 16:11:39
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 13:06:54
          compiled from "/var/workspace/userinfo/application/views/client/user/login.html" */ ?>
-<?php /*%%SmartyHeaderCode:187461086256d7f1bb56cf55-42647446%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:172791226056d917ee16eb66-35420648%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '552fd831a42dc51b8e36f57a52dcd37184c582b9' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/login.html',
-      1 => 1456988849,
+      1 => 1457068003,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '187461086256d7f1bb56cf55-42647446',
+  'nocache_hash' => '172791226056d917ee16eb66-35420648',
   'function' => 
   array (
   ),
@@ -37,7 +37,7 @@ $_smarty_tpl->decodeProperties(array (
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary">登 陆</button>
-            <a class="btn btn-primary" role="button" href="user/register">注 册</a>   
+            <a class="btn btn-primary" role="button" href="user/register    ">注 册</a>   
         </div>
     </div>
 <?php echo form_close();?>

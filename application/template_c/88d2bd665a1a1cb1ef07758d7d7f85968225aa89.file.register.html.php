@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 17:28:28
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 14:46:17
          compiled from "/var/workspace/userinfo/application/views/client/user/register.html" */ ?>
-<?php /*%%SmartyHeaderCode:113321297656d803bc9c6d94-44973895%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:196753376356d92f39337d97-48231320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '88d2bd665a1a1cb1ef07758d7d7f85968225aa89' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/register.html',
-      1 => 1456997304,
+      1 => 1457073973,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '113321297656d803bc9c6d94-44973895',
+  'nocache_hash' => '196753376356d92f39337d97-48231320',
   'function' => 
   array (
   ),
@@ -74,10 +74,13 @@ $_smarty_tpl->decodeProperties(array (
             <?php echo form_error('city','<label class="error">','</lable>');?>
 
         </div>
-        <div class="form-group" >
-            <input type="file" name="userfile" size="20" />
-            <input type="submit" value="submit" class="btn btn-lg btn-primary">
+        <div class="form-group"  >
+            <label>Head Portrait</label>
+            <input type="file" name="userfile" size="20" value="<?php echo set_value('userfile');?>
+" />
+           <!--  <input type="button" value="upload"/> -->
         </div>    
+        <input type="submit" value="submit" class="btn btn-lg btn-primary"/>
     <?php echo form_close();?>
 
     <script type="text/javascript">

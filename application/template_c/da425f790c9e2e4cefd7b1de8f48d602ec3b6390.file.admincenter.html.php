@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 14:38:23
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 11:05:04
          compiled from "/var/workspace/userinfo/application/views/admin/admincenter.html" */ ?>
-<?php /*%%SmartyHeaderCode:149750102656d7dbdf368ce1-62721819%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:201049449856d8fb60ccd0e2-41642795%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'da425f790c9e2e4cefd7b1de8f48d602ec3b6390' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/admincenter.html',
-      1 => 1456987096,
+      1 => 1457060696,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '149750102656d7dbdf368ce1-62721819',
+  'nocache_hash' => '201049449856d8fb60ccd0e2-41642795',
   'function' => 
   array (
   ),
@@ -20,7 +20,7 @@ $_smarty_tpl->decodeProperties(array (
 <?php $_template = new Smarty_Internal_Template('admin/share/_header.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>
 <center>
-    <table border="1" class="table table-striped">
+    <table border="1" class="table table-hover">
         <tr>
             <td>Id</td>
             <td>Name</td>
