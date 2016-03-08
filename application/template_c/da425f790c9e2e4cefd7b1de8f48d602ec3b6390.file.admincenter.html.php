@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 11:05:04
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-08 10:46:48
          compiled from "/var/workspace/userinfo/application/views/admin/admincenter.html" */ ?>
-<?php /*%%SmartyHeaderCode:201049449856d8fb60ccd0e2-41642795%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:168137086856de3d18c888e4-47772219%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'da425f790c9e2e4cefd7b1de8f48d602ec3b6390' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/admincenter.html',
-      1 => 1457060696,
+      1 => 1457404031,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '201049449856d8fb60ccd0e2-41642795',
+  'nocache_hash' => '168137086856de3d18c888e4-47772219',
   'function' => 
   array (
   ),

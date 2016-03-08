@@ -1,0 +1,14 @@
+input.error { 
+    border: 1px solid red; 
+}
+.form-signin{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+label.error {
+    padding-left: 8px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: red;
+}

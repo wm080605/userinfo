@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-04 17:23:51
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-08 14:57:41
          compiled from "/var/workspace/userinfo/application/views/client/user/register.html" */ ?>
-<?php /*%%SmartyHeaderCode:55751855956d95427bc67c6-27018690%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:43292985656de77e54a3a40-28267764%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '88d2bd665a1a1cb1ef07758d7d7f85968225aa89' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/register.html',
-      1 => 1457082054,
+      1 => 1457420228,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '55751855956d95427bc67c6-27018690',
+  'nocache_hash' => '43292985656de77e54a3a40-28267764',
   'function' => 
   array (
   ),
@@ -19,7 +19,7 @@ $_smarty_tpl->decodeProperties(array (
 )); /*/%%SmartyHeaderCode%%*/?>
 <?php $_template = new Smarty_Internal_Template('client/share/_header.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>
-<?php echo form_open_multipart('client/user/registercheck');?>
+<?php echo form_open_multipart('client/user/register_submit');?>
 
     <div class="form-group">   
         <label >Name</label>
@@ -76,65 +76,19 @@ $_smarty_tpl->decodeProperties(array (
     </div>
     <div class="form-group"  >
         <label>Head Portrait</label>
-        <input type="file" name="userfile" size="20" value="<?php echo set_value('userfile');?>
-" />
-       <!--  <input type="button" value="upload"/> -->
+        <input type="file" name="userfile" size="20"/>
     </div>    
     <input type="submit" value="submit" class="btn btn-lg btn-primary"/>
     <?php echo form_close();?>
 
-    <script type="text/javascript">
-        var provice = {
-          "1": {
-            "provice_id": "北京市",
-            "name": "北京市"
-          },
-          "2": {
-            "provice_id": "天津市",
-            "name": "天津市"
-          }
-        }
-        var city = {
-          "1": {
-            "provice_id": "北京市",
-            "city_id": 100,
-            "name": "东城区"
-          },
-          "2": {
-            "provice_id": "北京市",
-            "city_id": 101,
-            "name": "崇文区"
-          },
-          "3": {
-            "provice_id": "北京市",
-            "city_id": 102,
-            "name": "长宁区"
-          },
-          "4": {
-            "provice_id": "天津市",
-            "city_id": 102,
-            "name": "丰台区"
-          },
-          "5": {
-            "provice_id": "天津市",
-            "city_id": 103,
-            "name": "房山区"
-          }
-        }
-        $(document).ready(function(){
-            $.each(provice,function(n){
-                    $("#loc_province").append("<option value="+provice[n]['provice_id'] +">" + provice[n]['name'] +"</option>")
-                })
-                $("#loc_province").change(function(){
-                    $("#loc_city").html("");
-                    $.each(city,function(n){
-                        value = $("#loc_province").val();
-                        if(value == city[n]['provice_id']){
-                            $("#loc_city").append("<option >" + city[n]['name'] +"</option>")
-                        }
-                    })
-                })
-        })
-    </script>
+    <div id="message" style="display: none;"><?php echo $_smarty_tpl->getVariable('message')->value;?>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+       if( $('#message').html() != ''){
+            alert($('#message').html());
+       }
+    });  
+</script>
 <?php $_template = new Smarty_Internal_Template('client/share/_footer.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>

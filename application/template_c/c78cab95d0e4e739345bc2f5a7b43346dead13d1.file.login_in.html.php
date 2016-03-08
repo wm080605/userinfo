@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-08 15:43:21
-         compiled from "/var/workspace/userinfo/application/views/client/user/login.html" */ ?>
-<?php /*%%SmartyHeaderCode:35743668356de82991948c9-35128153%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-08 14:36:11
+         compiled from "/var/workspace/userinfo/application/views/client/user/login_in.html" */ ?>
+<?php /*%%SmartyHeaderCode:78473636456de72db9c4b07-83501993%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '552fd831a42dc51b8e36f57a52dcd37184c582b9' => 
+    'c78cab95d0e4e739345bc2f5a7b43346dead13d1' => 
     array (
-      0 => '/var/workspace/userinfo/application/views/client/user/login.html',
-      1 => 1457422998,
+      0 => '/var/workspace/userinfo/application/views/client/user/login_in.html',
+      1 => 1457418956,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '35743668356de82991948c9-35128153',
+  'nocache_hash' => '78473636456de72db9c4b07-83501993',
   'function' => 
   array (
   ),

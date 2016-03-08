@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-03 11:19:29
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-07 17:42:32
          compiled from "/var/workspace/userinfo/application/views/admin/share/_header.html" */ ?>
-<?php /*%%SmartyHeaderCode:70356505356d7ad416656e7-41803831%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:38828036956dd4d08a3fba8-55429753%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'a8842000ea32a3197e30468ab1f5720d98abebed' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/share/_header.html',
-      1 => 1456969859,
+      1 => 1457342775,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '70356505356d7ad416656e7-41803831',
+  'nocache_hash' => '38828036956dd4d08a3fba8-55429753',
   'function' => 
   array (
   ),
@@ -20,22 +20,9 @@ $_smarty_tpl->decodeProperties(array (
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-    <script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css">
-    <script type="text/javascript" src="/resources/js/area.js"></script>
-    <script type="text/javascript" src="/resources/js/location.js"></script>
     <script type="text/javascript " src="/resources/js/jquery.min.js"></script>
-    <style type="text/css">
-        input.error { 
-            border: 1px solid red; 
-        }
-        label.error {
-            padding-left: 8px;
-            padding-bottom: 2px;
-            font-weight: bold;
-            color: red;
-        }
-    </style>
+    <script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css">   
 </head>
 <body>  
