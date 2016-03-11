@@ -3,15 +3,12 @@
     <h2 class="form-sigin-heading">欢迎登陆</h2>
     <input name="email" type="text" class="form-control" id="email" placeholder="Email">
     <input name="password" type="password" class="form-control" id="password" placeholder="Password">
-    <button type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
+    <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
     <a class="btn btn-lg btn-primary btn-block" role="button" href="{%site_url('client/user/register')%}">注 册</a>
 {%form_close()%}
-<div id="error" style="display: none;">{%$error%}</div>
-<script type="text/javascript">
-    $(document).ready(function(){
-       if( $('#error').html() != ''){
-            alert($('#error').html());
-       }
-    });  
-</script>
+{%if isset($message)%}
+    <div id="message" style="display: none;">{%$message%}</div>
+    {%else%}   
+    <div id="message" style="display: none;"></div>
+{%/if%}
 {%include file='client/share/_footer.html'%}

@@ -1,4 +1,5 @@
 {%include file='admin/share/_header.html'%}
+<center>
     <table border="1" class="table table-hover">
         <tr>
             <td>Id</td>
@@ -6,15 +7,18 @@
             <td>Password</td>
             <td>Email</td>
             <td>CreateTime</td>
+<!--             <td>UpdateTime</td> -->
         </tr>
-        {%foreach from=$result item=user%}
+        {%foreach from=$result item=item%}
         <tr>
-            <td>{%$useruser.id%}</td>
-            <td>{%$user.name%}</td>
-            <td>{%$user.password%}</td>
-            <td>{%$user.email%}</td>
-            <td>{%$user.createtime%}</td>
+            <td>{%$item.id%}</td>
+            <td>{%$item.name%}</td>
+            <td>{%$item.password%}</td>
+            <td>{%$item.email%}</td>
+            <td>{%$item.createtime%}</td>
+            <!-- <td>{%$item.updateTS%}</td> -->
         </tr>
         {%/foreach%}
     </table>
+</center>
 {%include file='admin/share/_footer.html'%}

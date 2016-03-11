@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('Cismarty', 'database','session'); 
+$autoload['libraries'] = array('Cismarty', 'database','session','email'); 
 
 /*
 | -------------------------------------------------------------------

@@ -1,3 +1,8 @@
 {%include file='client/share/_header.html'%}
 <h1>Welcome!!!!!</h1>
+{%if isset($message)%}
+    <div id="message" style="display: none;">{%$message%}</div>
+    {%else%}   
+    <div id="message" style="display: none;"></div>
+{%/if%}
 {%include file='client/share/_footer.html'%}

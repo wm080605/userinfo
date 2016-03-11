@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-08 14:57:41
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-10 13:23:16
          compiled from "/var/workspace/userinfo/application/views/client/user/register.html" */ ?>
-<?php /*%%SmartyHeaderCode:43292985656de77e54a3a40-28267764%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:66232597956e104c49b9590-50821946%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '88d2bd665a1a1cb1ef07758d7d7f85968225aa89' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/user/register.html',
-      1 => 1457420228,
+      1 => 1457587392,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '43292985656de77e54a3a40-28267764',
+  'nocache_hash' => '66232597956e104c49b9590-50821946',
   'function' => 
   array (
   ),
@@ -19,7 +19,7 @@ $_smarty_tpl->decodeProperties(array (
 )); /*/%%SmartyHeaderCode%%*/?>
 <?php $_template = new Smarty_Internal_Template('client/share/_header.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>
-<?php echo form_open_multipart('client/user/register_submit');?>
+<?php echo form_open_multipart('client/user/register_submit','id="register"');?>
 
     <div class="form-group">   
         <label >Name</label>
@@ -30,7 +30,7 @@ $_smarty_tpl->decodeProperties(array (
     </div>
     <div class="form-group">
         <label>Password</label>
-        <input class="form-control" type="password" name="password" value="<?php echo set_value('password');?>
+        <input class="form-control" type="password" name="password" id="password" value="<?php echo set_value('password');?>
 "/>
         <?php echo form_error('password','<label class="error">','</lable>');?>
 
@@ -58,9 +58,9 @@ $_smarty_tpl->decodeProperties(array (
     </div>
     <div class="form-group">
         <label >Sex</label>
-        <input type="radio" name="sex" value="女"<?php echo set_radio('sex','0');?>
+        <input type="radio" name="sex" value="0"<?php echo set_radio('sex','0');?>
 />W
-        <input type="radio" name="sex" value="男"<?php echo set_radio('sex','1');?>
+        <input type="radio" name="sex" value="1"<?php echo set_radio('sex','1');?>
 />M
         <?php echo form_error('sex','<label class="error">','</lable>');?>
 
@@ -68,7 +68,7 @@ $_smarty_tpl->decodeProperties(array (
     <div class="form-group">
         <label >Address</label>
         <select class="form-control" id="loc_province" name="provice">
-            <option>请选择</option>
+            <option value="0">请选择</option>
         </select>
         <select class="form-control" id="loc_city" name="city"></select>
         <?php echo form_error('city','<label class="error">','</lable>');?>
@@ -78,17 +78,14 @@ $_smarty_tpl->decodeProperties(array (
         <label>Head Portrait</label>
         <input type="file" name="userfile" size="20"/>
     </div>    
-    <input type="submit" value="submit" class="btn btn-lg btn-primary"/>
-    <?php echo form_close();?>
+    <input type="submit" value="submit" class="btn  btn-primary"/>
+<?php echo form_close();?>
 
+<?php if (isset($_smarty_tpl->getVariable('message',null,true,false)->value)){?>
     <div id="message" style="display: none;"><?php echo $_smarty_tpl->getVariable('message')->value;?>
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-       if( $('#message').html() != ''){
-            alert($('#message').html());
-       }
-    });  
-</script>
+    <?php }else{ ?>   
+    <div id="message" style="display: none;"></div>
+<?php }?>
 <?php $_template = new Smarty_Internal_Template('client/share/_footer.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);
  echo $_template->getRenderedTemplate();?><?php $_template->updateParentVariables(0);?><?php unset($_template);?>

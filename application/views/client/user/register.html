@@ -1,13 +1,5 @@
 {%include file='client/share/_header.html'%}
-<div id="message" style="display: none;">{%$message%}</div>
-<script type="text/javascript">
-    $(document).ready(function(){
-       if( $('#message').html() != ''){
-            alert($('#message').html());
-       }
-    });  
-</script>
-{%form_open_multipart('client/user/register_submit')%}
+{%form_open_multipart('client/user/register_submit','id="register"')%}
     <div class="form-group">   
         <label >Name</label>
         <input class="form-control" type="text"  name="username" value="{%set_value('username'  )%}"/>
@@ -15,7 +7,7 @@
     </div>
     <div class="form-group">
         <label>Password</label>
-        <input class="form-control" type="password" name="password" value="{%set_value('password')%}"/>
+        <input class="form-control" type="password" name="password" id="password" value="{%set_value('password')%}"/>
         {%form_error('password','<label class="error">','</lable>')%}
     </div> 
     <div class="form-group">
@@ -35,14 +27,14 @@
     </div>
     <div class="form-group">
         <label >Sex</label>
-        <input type="radio" name="sex" value="女"{%set_radio('sex','0')%}/>W
-        <input type="radio" name="sex" value="男"{%set_radio('sex','1')%}/>M
+        <input type="radio" name="sex" value="0"{%set_radio('sex','0')%}/>W
+        <input type="radio" name="sex" value="1"{%set_radio('sex','1')%}/>M
         {%form_error('sex','<label class="error">','</lable>')%}
     </div>    
     <div class="form-group">
         <label >Address</label>
         <select class="form-control" id="loc_province" name="provice">
-            <option>请选择</option>
+            <option value="0">请选择</option>
         </select>
         <select class="form-control" id="loc_city" name="city"></select>
         {%form_error('city','<label class="error">','</lable>')%}
@@ -51,6 +43,11 @@
         <label>Head Portrait</label>
         <input type="file" name="userfile" size="20"/>
     </div>    
-    <input type="submit" value="submit" class="btn btn-lg btn-primary"/>
-    {%form_close()%}
+    <input type="submit" value="submit" class="btn  btn-primary"/>
+{%form_close()%}
+{%if isset($message)%}
+    <div id="message" style="display: none;">{%$message%}</div>
+    {%else%}   
+    <div id="message" style="display: none;"></div>
+{%/if%}
 {%include file='client/share/_footer.html'%}
