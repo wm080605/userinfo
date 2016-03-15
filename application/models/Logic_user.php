@@ -1,10 +1,9 @@
 <?php
 class Logic_user extends CI_Model
 {
-    public function get_user($email, $password)
+    public function get_user($list)
     {
-        $data = array('email' => $email, 'password' => $password);
-        return $this->db->get_where('user', $data)->row_array();
+        return $this->db->get_where('user', $list)->row_array();
     }
 
     public function get_all()
@@ -24,11 +23,22 @@ class Logic_user extends CI_Model
         return $result = $this->db->get_where('user', $res)->row_array();
     }
 
-    public function token_add($data)
+    public function update($userdata)
     {
-        $token = md5($data['name'].$data['email']);
-        $this->db->set('token',$token);
-        $this->db->where('name', $data['name']);
+        $this->db->set('status', '1') ; 
+        $this->db->set('token', NULL);
+        $this->db->where('id', $userdata['id']);   
+        return $this->db->update('user');
+    }
+
+    public function activation_update($userdata)
+    {
+        $token_time = time() + 60 * 60 * 24;
+        $token = md5(uniqid());
+
+        $this->db->set('token_time', $token_time); 
+        $this->db->set('token', $token);
+        $this->db->where('id', $userdata['id']);   
         return $this->db->update('user');
     }
 }

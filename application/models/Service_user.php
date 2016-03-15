@@ -6,10 +6,10 @@ class Service_user extends CI_Model
         parent::__construct();
         $this->load->model('Logic_user');
     }
-    public function login_check($email, $password)
+    public function check($list)
     {   
         //$this->load->model('Logic_user');
-        return  $this->Logic_user->get_user($email, $password);   
+        return  $this->Logic_user->get_user($list);   
     }
 
     public function register_add($data)
@@ -76,7 +76,7 @@ class Service_user extends CI_Model
         }
     }
 
-    public function do_email($data)
+    public function send_email($data)
     {
         $this->load->library('parser');
         $config['protocol'] = 'smtp';
@@ -92,20 +92,21 @@ class Service_user extends CI_Model
         $config['newline'] = "\r\n";
         $this->email->initialize($config);
 
-        $token = md5($data['name'].$data['email']);
+        $token = $data['token'];
+        //var_dump($token);
 
         $this->email->from('wangm@playable.cn');
-        $this->email->to($data['email']);   
+        $this->email->to($data['email']);
         $this->email->subject('用户帐号激活');
         $message =  '{name}先生/小姐,感谢注册，请点击以下链接激活你的邮箱{link}';
         $list = array(
             'name' => $data['name'],
             'link' =>  'http://localhost/index.php/client/user/activation?token='.$token
             );
-        $result = $this->parser->parse_string($message,$list);
+        $result = $this->parser->parse_string($message, $list);
         $this->email->message($result); 
 
-        if( $this->email->send() )
+        if( $this->email->send())
         {
             return TRUE;
         }
@@ -116,9 +117,15 @@ class Service_user extends CI_Model
         }
     }
 
-    public function insert_token($data)
+    public function token_update($userdata)
     {
-        //$this->load->model('Logic_user');
-        return $this->Logic_user->token_add($data);
+        // $this->load->model('Logic_user');
+        return $this->Logic_user->update($userdata);
+    }
+
+    public function activation_token_update($userdata)
+    {
+        // $this->load->model('Logic_user');
+        return $this->Logic_user->activation_update($userdata);
     }
 }

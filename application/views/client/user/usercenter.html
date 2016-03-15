@@ -1,5 +1,6 @@
 {%include file='client/share/_header.html'%}
 <h1>Welcome!!!!!</h1>
+<a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a>
 {%if isset($message)%}
     <div id="message" style="display: none;">{%$message%}</div>
     {%else%}   

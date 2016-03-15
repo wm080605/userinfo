@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-11 15:32:35
+<?php /* Smarty version Smarty-3.0.6, created on 2016-03-15 09:46:35
          compiled from "/var/workspace/userinfo/application/views/client/share/_header.html" */ ?>
-<?php /*%%SmartyHeaderCode:67617254656e27493b39c92-70529170%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:30365299756e7697bad18e8-20460157%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6234eaa87a4f4b2b09ec38ef1033e93b81f8fa84' => 
     array (
       0 => '/var/workspace/userinfo/application/views/client/share/_header.html',
-      1 => 1457681542,
+      1 => 1458006393,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '67617254656e27493b39c92-70529170',
+  'nocache_hash' => '30365299756e7697bad18e8-20460157',
   'function' => 
   array (
   ),
@@ -28,7 +28,7 @@ $_smarty_tpl->decodeProperties(array (
     <script type="text/javascript " src="/resources/js/login_check.js"></script>
     <script type="text/javascript " src="/resources/js/register_check.js"></script>
     <script type="text/javascript " src="/resources/js/provice.js"></script>
-    <script type="text/javascript " src="/resources/js/isempty.js"></script>
+    <!-- <script type="text/javascript " src="/resources/js/isempty.js"></script> -->
 
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/login-check.css">

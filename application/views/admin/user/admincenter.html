@@ -1,5 +1,5 @@
 {%include file='admin/share/_header.html'%}
-<center>
+
     <table border="1" class="table table-hover">
         <tr>
             <td>Id</td>
@@ -7,7 +7,6 @@
             <td>Password</td>
             <td>Email</td>
             <td>CreateTime</td>
-<!--             <td>UpdateTime</td> -->
         </tr>
         {%foreach from=$result item=item%}
         <tr>
@@ -16,9 +15,8 @@
             <td>{%$item.password%}</td>
             <td>{%$item.email%}</td>
             <td>{%$item.createtime%}</td>
-            <!-- <td>{%$item.updateTS%}</td> -->
         </tr>
         {%/foreach%}
     </table>
-</center>
+    <a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a> 
 {%include file='admin/share/_footer.html'%}
