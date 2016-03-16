@@ -1,4 +1,6 @@
 {%include file='client/share/_header.html'%}
+<!--     <script type="text/javascript " src="/resources/js/register_check.js"></script> -->
+    <script type="text/javascript " src="/resources/js/provice.js"></script>
 {%form_open_multipart('client/user/register_submit','id="register"')%}
     <div class="form-group">   
         <label >Name</label>
@@ -27,8 +29,8 @@
     </div>
     <div class="form-group">
         <label >Sex</label>
-        <input type="radio" name="sex" value="0"{%set_radio('sex','0')%}/>W
-        <input type="radio" name="sex" value="1"{%set_radio('sex','1')%}/>M
+        <input type="radio" name="sex" value="0"{%set_radio('sex','0')%}/>女
+        <input type="radio" name="sex" value="1"{%set_radio('sex','1')%}/>男
         {%form_error('sex','<label class="error">','</lable>')%}
     </div>    
     <div class="form-group">
@@ -39,15 +41,17 @@
         <select class="form-control" id="loc_city" name="city"></select>
         {%form_error('city','<label class="error">','</lable>')%}
     </div>
-    <div class="form-group"  >
+<!--     <div class="form-group"  >
         <label>Head Portrait</label>
         <input type="file" name="userfile" size="20"/>
-    </div>    
+    </div>   -->  
     <input type="submit" value="submit" class="btn  btn-primary"/>
 {%form_close()%}
-{%if isset($message)%}
-    <div id="message" style="display: none;">{%$message%}</div>
-    {%else%}   
+{%if isset($message) &&$message eq "email_exist"%}
+    <div id="message" style="display: none;">邮箱已经使用</div>
+{%elseif isset($message) &&$message eq "error_send_fail"%}
+    <div id="message" style="display: none;">邮件发送失败</div>
+{%else $message==""%}   
     <div id="message" style="display: none;"></div>
 {%/if%}
 {%include file='client/share/_footer.html'%}

@@ -1,9 +1,9 @@
 <?php
 class Logic_user extends CI_Model
 {
-    public function get_user($list)
+    public function get_user($data)
     {
-        return $this->db->get_where('user', $list)->row_array();
+        return $this->db->get_where('user', $data)->row_array();
     }
 
     public function get_all()
@@ -17,27 +17,40 @@ class Logic_user extends CI_Model
         return $this->db->insert('user', $data);
     }
 
-    public function isexist($data)
+    public function isexist($emaildata)
     {
-        $res = array('email' => $data['email']);
-        return $result = $this->db->get_where('user', $res)->row_array();
+        // $res = array('email' => $data['email']);
+        return $this->db->get_where('user', $emaildata)->row_array();
     }
 
+    public function email_fail_update($userdata)
+    {
+        $this->db->set('token', NULL);
+        $this->db->set('token_time', NULL);
+        $this->db->where('email', $userdata['email']);
+        return $this->db->update('user');
+    }
+
+    public function fail_update($userdata)
+    {
+        $this->db->set('token', NULL);
+        $this->db->set('token_time', NULL);
+        $this->db->where('id', $userdata['id']);
+        return $this->db->update('user');
+    }
     public function update($userdata)
     {
         $this->db->set('status', '1') ; 
         $this->db->set('token', NULL);
-        $this->db->where('id', $userdata['id']);   
+        $this->db->set('token_time', NULL);
+        $this->db->where('id', $userdata['id']);
         return $this->db->update('user');
     }
 
     public function activation_update($userdata)
     {
-        $token_time = time() + 60 * 60 * 24;
-        $token = md5(uniqid());
-
-        $this->db->set('token_time', $token_time); 
-        $this->db->set('token', $token);
+        $this->db->set('token_time', $userdata['token_time']); 
+        $this->db->set('token', $userdata['token']);
         $this->db->where('id', $userdata['id']);   
         return $this->db->update('user');
     }

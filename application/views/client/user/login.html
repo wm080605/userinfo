@@ -1,4 +1,5 @@
 {%include file='client/share/_header.html'%}
+    <script type="text/javascript " src="/resources/js/login_check.js"></script>
 {%form_open('/client/user/login','class="form-signin" id="login"')%}
     <h2 class="form-sigin-heading">欢迎登陆</h2>
     <input name="email" type="text" class="form-control" id="email" placeholder="Email">
@@ -6,9 +7,15 @@
     <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
     <a class="btn btn-lg btn-primary btn-block" role="button" href="{%site_url('client/user/register')%}">注 册</a>
 {%form_close()%}
-{%if isset($message)%}
-    <div id="message" style="display: none;">{%$message%}</div>
-    {%else%}   
+{%if isset($message) &&$message eq "error_activation"%}
+    <div id="message" style="display: none;">用户不能登陆，请先激活邮箱</div>
+{%elseif isset($message) &&$message eq "error_user_or_password"%}   
+    <div id="message" style="display: none;">密码错误或用户名不正确</div>
+{%elseif isset($message) &&$message eq "error_sign_in"%}   
+    <div id="message" style="display: none;">请先登陆</div>
+{%elseif isset($message) &&$message eq "error_sign_out"%}   
+    <div id="message" style="display: none;">请先退出</div>
+{%else $message==""%}
     <div id="message" style="display: none;"></div>
 {%/if%}
 {%include file='client/share/_footer.html'%}

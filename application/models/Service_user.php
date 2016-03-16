@@ -6,28 +6,24 @@ class Service_user extends CI_Model
         parent::__construct();
         $this->load->model('Logic_user');
     }
-    public function check($list)
+    public function get_user_info($data)
     {   
-        //$this->load->model('Logic_user');
-        return  $this->Logic_user->get_user($list);   
+        return  $this->Logic_user->get_user($data);   
     }
 
     public function register_add($data)
     {
-        //$this->load->model('Logic_user');
         return $this->Logic_user->add($data);
     }
 
     public function admin_center()
     {
-        //$this->load->model('Logic_user');
         return $result = $this->Logic_user->get_all();    
     }
 
-    public function isexist_email($data)
+    public function isexist_email($emaildata)
     {
-        //$this->load->model('Logic_user');
-        return $this->Logic_user->isexist($data);
+        return $this->Logic_user->isexist($emaildata);
     }
 
     public function register_check()
@@ -79,32 +75,17 @@ class Service_user extends CI_Model
     public function send_email($data)
     {
         $this->load->library('parser');
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'smtp.exmail.qq.com';
-        $config['smtp_user'] = 'wangm@playable.cn';
-        $config['smtp_pass'] = 'wm123456';
-        $config['smtp_port'] = '465';
-        $config['mailtype'] = 'text';
-        $config['smtp_crypto'] = 'ssl';
-        $config['charset'] = 'utf-8';
-        $config['wordwrap'] = TRUE;
-        $config['crlf'] = "\r\n";
-        $config['newline'] = "\r\n";
-        $this->email->initialize($config);
-
         $token = $data['token'];
-        //var_dump($token);
-
-        $this->email->from('wangm@playable.cn');
+   
+        $this->email->from('wangm@playable.cn');    
         $this->email->to($data['email']);
         $this->email->subject('用户帐号激活');
-        $message =  '{name}先生/小姐,感谢注册，请点击以下链接激活你的邮箱{link}';
+
         $list = array(
             'name' => $data['name'],
-            'link' =>  'http://localhost/index.php/client/user/activation?token='.$token
+            'link' =>  base_url('client/user/activation').'?token='.$token
             );
-        $result = $this->parser->parse_string($message, $list);
-        $this->email->message($result); 
+        $this->email->message($this->parser->parse('template/register_temp', $list));
 
         if( $this->email->send())
         {
@@ -117,15 +98,29 @@ class Service_user extends CI_Model
         }
     }
 
-    public function token_update($userdata)
+    public function send_email_fail_update($userdata)
     {
-        // $this->load->model('Logic_user');
+        return $this->Logic_user->email_fail_update($userdata);
+    }
+
+    public function activation_fail_update($userdata)
+    {
+        return $this->Logic_user->fail_update($userdata);
+    }
+
+    public function activation_success_update($userdata)
+    {
         return $this->Logic_user->update($userdata);
     }
 
-    public function activation_token_update($userdata)
+    public function again_activation_update($userdata)
     {
-        // $this->load->model('Logic_user');
         return $this->Logic_user->activation_update($userdata);
+    }
+
+    public function create_token()
+    {
+        $token = md5(uniqid());
+        return $token;
     }
 }

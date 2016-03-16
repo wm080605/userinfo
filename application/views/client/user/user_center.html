@@ -1,0 +1,11 @@
+{%include file='client/share/_header.html'%}
+<h1>Welcome!!!!!</h1>
+<a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a>
+{%if isset($message) &&$message eq "error_sign_out"%}   
+    <div id="message" style="display: none;">请先退出</div>
+{%elseif isset($message) &&$message eq "error_sign_in"%}   
+    <div id="message" style="display: none;">请先登陆</div>
+{%else $message==""%}   
+    <div id="message" style="display: none;"></div> 
+{%/if%}
+{%include file='client/share/_footer.html'%}

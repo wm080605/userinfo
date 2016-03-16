@@ -12,15 +12,14 @@ class User extends CI_Controller
             }
             else
             {
-                $this->cismarty->assign('message', '你已经登陆,2请先退出');
-                $this->cismarty->display('client/user/usercenter.html');
-                // redirect('client/user/user_center');
+                redirect('client/user/user_center');
             }
         }
         else
         {
             $this->cismarty->display('client/user/login.html');
         }
+        // $this->cismarty->display('client/user/login.html');
     }
 
     public function login()
@@ -30,7 +29,7 @@ class User extends CI_Controller
 
         $data = array('email' => $email);
         $this->load->model('Service_user');
-        $userData = $this->Service_user->check($data);
+        $userData = $this->Service_user->get_user_info($data);
 
         if($userData && $userData['password'] == $password)
         {
@@ -38,8 +37,7 @@ class User extends CI_Controller
             {
                 $this->session->set_userdata('user', $userData);
                 if($userData['isadmin'] == TRUE)
-                {
-                    
+                {                    
                     redirect('admin/user/admin_center');
                 }
                 else
@@ -49,60 +47,62 @@ class User extends CI_Controller
             }
             else
             {
-                $this->cismarty->assign('message',"用户不能登陆，请先激活邮箱");
+                $this->cismarty->assign('message',"error_activation");
                 $this->cismarty->display('client/user/login.html');
-                // redirect('client/user');
             }
         }
         else
         {  
-            $this->cismarty->assign('message',"密码错误或用户名不正确");
+            $this->cismarty->assign('message',"error_user_or_password");
             $this->cismarty->display('client/user/login.html');
-            // redirect('client/user');
         }   
     }
 
     public function register()
     { 
+        $this->cismarty->assign('message', '');
         $this->cismarty->display('client/user/register.html');
-        $email = $this->input ->post('email');
     }
 
     public function register_submit()
     {
-        $info = $this->input->post();
-        // $token_time = time() + 60 * 60 * 24;
-        $token_time = time();
-        $data = array(
-            'name' => $info['username'],
-             'email' => $info['email'],
-             'password' =>$info['password'],
-             'createtime' => date("Y-m-d H:i:s"),
-             'token_time' => $token_time,
-             'token' => md5(uniqid())
-        );
-
         $this->load->model('Service_user');
+        $info = $this->input->post();
+
+        $token = $this->Service_user->create_token();
+        // $token_time = time() + 60 * 60 * 24;
+        $token_out_time = time();
+         
         $result = $this->Service_user->register_check();
         if ($result == TRUE)
         {
-            $emailresult = $this->Service_user->isexist_email($data);
+            $emaildata = array('email' => $info['email']);
+            $emailresult = $this->Service_user->isexist_email($emaildata);
             if($emailresult)
             {
-                $this->cismarty->assign('message', '邮箱已存在');
+                $this->cismarty->assign('message', 'email_exist');
                 $this->cismarty->display('client/user/register.html');
             }
             else
             {
+                $data = array(
+                        'name' => $info['username'],
+                        'email' => $info['email'],
+                        'password' =>$info['password'],
+                        'createtime' => date("Y-m-d H:i:s"),
+                        'token_time' => $token_out_time,
+                        'token' => $token
+                );  
                 $add_result = $this->Service_user->register_add($data);
-                //var_dump($add_result);die();  
                 if($add_result == TRUE)
                 {
                     $email_res = $this->Service_user->send_email($data);
-                    // var_dump($email_res);die();
                     if($email_res == FALSE)
-                    {   
-                        echo ('发送失败，请重试');       
+                    {
+                        $userdata = array('email' => $info['email']);
+                        $this->Service_user->send_email_fail_update($userdata);
+                        $this->cismarty->assign('message', 'error_send_fail');
+                        $this->cismarty->display('client/user/activation.html');
                     }
                     else
                     {
@@ -111,102 +111,99 @@ class User extends CI_Controller
                 }
                 else
                 {
-                    // $this->cismarty->display('client/user/register.html');
                     redirect('client/user/register');
                 }
             }          
         }
         else
         {
-            //$this->cismarty->display('client/user/register.html');
-            redirect('client/user/register');
+            $this->cismarty->display('client/user/register.html');
         }
     }
 
     public function user_center()
     {
         $data = $this->session->userdata('user');
-        if($data == NULL)
+        if($data != NULL)
         {
-            redirect('client/user');
+            $this->cismarty->assign('message','error_sign_out');
+            $this->cismarty->display('client/user/user_center.html');
         }
         else
         {
-            $this->cismarty->display('client/user/usercenter.html');
+            $this->cismarty->assign('message','error_sign_in');
+            $this->cismarty->display('client/user/login.html');
         }     
     }
 
     public function register_success()
     {
-        $this->cismarty->assign('message', '注册成功，请前往邮箱激活后登陆');
-        $this->cismarty->display('client/user/registersuccess.html');
+        $this->cismarty->assign('message', 'register_success');
+        $this->cismarty->display('client/user/register_success.html');
     }
 
     public function activation()
     {
         $token = $this->input->get('token');
-        $nowtime = time();
-        $list = array('token' => $token);
-        //$data = $this->db->get_where('user', $tokendata)->row_array();
+        $nowtime = time() + 60 * 60 * 24;
+        $data = array('token' => $token);
+
         $this->load->model('Service_user');
-        $userdata = $this->Service_user->check($list);
-        // var_dump($userdata);die();
+        $userdata = $this->Service_user->get_user_info($data);
 
         if($userdata && $userdata['status'] == 0)
         {
             $this->session->set_userdata('usertoken', $token);
             if($nowtime > $userdata['token_time'])
-            {
-                $this->cismarty->assign('error', "您的激活有效期已过,请输入注册邮箱重新激活");
+            {     
+                $this->cismarty->assign('message', "activation_time_out");
+                $this->Service_user->activation_fail_update($userdata);
                 $this->cismarty->display('client/user/activation.html');
-                // $this->Service_user->activation_token_update($userdata);
-                // $data = $this->Service_user->check(array('id' => $userdata['id']));
-                // //var_dump($data);die();
-                // $result = $this->Service_user->send_email($data);
             }
             else
             {
-                $this->Service_user->token_update($userdata);
-                echo "激活成功";
+                $this->Service_user->activation_success_update($userdata);
+                $this->cismarty->display('client/user/activation_success.html');
             }
         }
         else
         {
-            echo "error";   
+            $this->cismarty->display('client/user/activation_fail.html');
         }
     }
 
     public function again_activation()
     {
         $this->load->model('Service_user');
-        $token = $this->session->userdata('usertoken');
-        //var_dump($token);
         $email = $this->input->post('email');
-        $data = array('token' => $token);
 
-        $userData = $this->Service_user->check($data);
-        // var_dump($userData);die();
-
-        if($userData['email'] == $email && $userData['status'] == 0 )
+        $user_data = $this->Service_user->get_user_info(array('email' => $email));
+        if($user_data['email'] && $user_data['status'] == 0 )
         {
-            $this->Service_user->activation_token_update($userData);
-            $data = $this->Service_user->check(array('id' => $userData['id']));
-            if(($this->Service_user->send_email($data)) == FALSE)
+            $token_time = time() + 60 * 60 * 24;
+            $token = $this->Service_user->create_token();
+            $userdata = array(
+                    'token' =>$token,
+                    'token_time' =>$token_time,
+                    'id' => $user_data['id']
+                ); 
+            $this->Service_user->again_activation_update($userdata);
+            $data = $this->Service_user->get_user_info(array('id' => $user_data['id']));
+            $result = $this->Service_user->send_email($data);
+            if($result == FALSE)
             {
-                $this->cismarty->assign('error', "发送失败，请重发");
+                $this->cismarty->assign('message', "error_send_fail");
                 $this->cismarty->display('client/user/activation.html');
             }
             else
             {
-                $this->cismarty->assign('error', "激活链接已发送");
+                $this->cismarty->assign('message', "activation_success");
                 $this->cismarty->display('client/user/activation.html');
-                $this->session->sess_destroy('usertoken');
-                
             }
         }
         else
         {
-            $this->cismarty->assign('error', "邮箱不正确或邮箱已激活");
+            $this->cismarty->assign('message', "email_not_correct");
             $this->cismarty->display('client/user/activation.html');
         }
     }
