@@ -19,17 +19,16 @@ class Logic_user extends CI_Model
 
     public function isexist($emaildata)
     {
-        // $res = array('email' => $data['email']);
         return $this->db->get_where('user', $emaildata)->row_array();
     }
 
-    public function email_fail_update($userdata)
-    {
-        $this->db->set('token', NULL);
-        $this->db->set('token_time', NULL);
-        $this->db->where('email', $userdata['email']);
-        return $this->db->update('user');
-    }
+    // public function email_fail_update($userdata)
+    // {
+    //     $this->db->set('token', NULL);
+    //     $this->db->set('token_time', NULL);
+    //     $this->db->where('email', $userdata['email']);
+    //     return $this->db->update('user');
+    // }
 
     public function fail_update($userdata)
     {
@@ -51,6 +50,15 @@ class Logic_user extends CI_Model
     {
         $this->db->set('token_time', $userdata['token_time']);
         $this->db->set('token', $userdata['token']);
+        $this->db->where('id', $userdata['id']);
+        return $this->db->update('user');
+    }
+
+    public function password_update($userdata)
+    {
+        $this->db->set('token_time', NULL);
+        $this->db->set('token', NULL);
+        $this->db->set('password', NULL);
         $this->db->where('id', $userdata['id']);
         return $this->db->update('user');
     }

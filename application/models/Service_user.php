@@ -76,17 +76,50 @@ class Service_user extends CI_Model
     {
         $this->load->library('parser');
         $token = $data['token'];
+        
+        // $this->load->config('email', true);
+        // $email_config = $this->config->item('email');
+        // $this->load->library('email', $email_config);
+        // // $this->email->initialize($email_config);
+        // $this->email->from($email_config['from']);
+        $this->email->to($data['email']);
+        $this->email->subject('用户帐号激活');
+
+        // $list = array(
+        //     'name' => $data['name'],
+        //     'link' =>  base_url('client/user/activation').'?token='.$token
+        //     );
+        // $this->email->message($this->parser->parse('template/register_temp', $list));
+
+        $this->email->message('aaaaaaaaaaaaaaaa');
+
+
+        if( $this->email->send())
+        {
+            return TRUE;
+        }
+        else
+        {
+            echo $this->email->print_debugger();
+            return FALSE;
+        }
+    }
+
+    public function send_password_email($data)
+    {
+        $this->load->library('parser');
+        $token = $data['token'];
    
         // $this->email->initialize($config);
         $this->email->from('wangm@playable.cn');
         $this->email->to($data['email']);
-        $this->email->subject('用户帐号激活');
+        $this->email->subject('找回密码');
 
         $list = array(
             'name' => $data['name'],
-            'link' =>  base_url('client/user/activation').'?token='.$token
+            'link' =>  base_url('client/user/reset_password').'?token='.$token
             );
-        $this->email->message($this->parser->parse('template/register_temp', $list));
+        $this->email->message($this->parser->parse('template/find_password_temp', $list));
 
         if( $this->email->send())
         {
@@ -109,6 +142,11 @@ class Service_user extends CI_Model
         return $this->Logic_user->fail_update($userdata);
     }
 
+    public function send_password_fail_update($userdata)
+    {
+        return $this->Logic_user->fail_update($userdata);
+    }
+
     public function activation_success_update($userdata)
     {
         return $this->Logic_user->update($userdata);
@@ -117,6 +155,16 @@ class Service_user extends CI_Model
     public function again_activation_update($userdata)
     {
         return $this->Logic_user->activation_update($userdata);
+    }
+
+    public function find_password_token_update($userdata)
+    {
+        return $this->Logic_user->activation_update($userdata);
+    }
+
+    public function update_password($userdata)
+    {
+        return $this->Logic_user->password_update($userdata);
     }
 
     public function create_token()

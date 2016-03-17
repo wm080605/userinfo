@@ -5,8 +5,11 @@
     <input name="email" type="text" class="form-control" id="email" placeholder="Email">
     <input name="password" type="password" class="form-control" id="password" placeholder="Password">
     <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
-    <a class="btn btn-lg btn-primary btn-block" role="button" href="{%site_url('client/user/register')%}">注 册</a>
-    <a class="btn btn-lg btn-primary btn-block" href="{%site_url('client/user/again_activation')%}">重新发送激活邮件</a>
+    <a href="{%site_url('client/user/register')%}">注   册</a>
+    <span >|</span>
+    <a  href="{%site_url('client/user/again_activation')%}">重新发送激活邮件</a>
+    <span >|</span>
+    <a  href="{%site_url('client/user/find_password')%}">找回密码</a>
 {%form_close()%}
 {%if isset($message) &&$message eq "error_not_activation"%}
     <div id="message" >用户不能登陆，请先激活邮箱</div>

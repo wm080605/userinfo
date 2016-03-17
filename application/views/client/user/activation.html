@@ -4,7 +4,7 @@
     <input type="submit" value="重新发送激活邮件" class="btn btn-lg btn-primary btn-block"/>
 {%if isset($message) &&$message eq "error_send_fail"%}
     <div id="message" >发送失败，请重发</div>
-{%elseif isset($message) &&$message eq "activation_success"%}   
+{%elseif isset($message) &&$message eq "error_send_success"%}   
     <div id="message" >激活链接已发送</div>
 {%elseif isset($message) &&$message eq "email_not_correct"%}   
     <div id="message" >邮箱不正确或邮箱已激活</div>

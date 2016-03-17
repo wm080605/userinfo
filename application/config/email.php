@@ -26,4 +26,4 @@ $config['charset'] = 'utf-8';
 $config['wordwrap'] = TRUE;
 $config['crlf'] = "\r\n";
 $config['newline'] = "\r\n";
-// $config['from'] = 'wangm@playable.cn';
+$config['from'] = 'wangm@playable.cn';

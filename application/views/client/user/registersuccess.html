@@ -1,9 +1,0 @@
-{%include file='client/share/_header.html'%}
-    <h1>激活邮件已发送，请24小时内登陆激活!!!!<h1><br>
-    {%if isset($message)%}
-        <div id="message" style="display: none;">{%$message%}</div>
-    {%else%}   
-        <div id="message" style="display: none;"></div>
-    {%/if%}
-    <a class="btn btn-primary" role="button" href="{%base_url('client/user')%}">返 回</a> 
-{%include file='client/share/_footer.html'%}
