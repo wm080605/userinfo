@@ -10,13 +10,14 @@ class User extends CI_Controller
             $result = $this->Service_user->admin_center();
             $this->cismarty->assign("result",$result);
 
-            $this->cismarty->assign('message', 'error_sign_out');
-            $this->cismarty->display('admin/user/admin_center.html');         
+            $data = $this->session->flashdata('message');
+            $this->cismarty->assign('message', $data);
+            $this->cismarty->display('admin/user/admin_center.html');
         }
         else
         {
-            $this->cismarty->assign('message', 'error_sign_in');
-            $this->cismarty->display('client/user/login.html');
+            $this->session->set_flashdata('message','error_sign_in');
+            redirect('client/user');
         }
 
     }

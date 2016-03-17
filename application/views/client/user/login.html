@@ -6,16 +6,17 @@
     <input name="password" type="password" class="form-control" id="password" placeholder="Password">
     <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
     <a class="btn btn-lg btn-primary btn-block" role="button" href="{%site_url('client/user/register')%}">注 册</a>
+    <a class="btn btn-lg btn-primary btn-block" href="{%site_url('client/user/again_activation')%}">重新发送激活邮件</a>
 {%form_close()%}
-{%if isset($message) &&$message eq "error_activation"%}
-    <div id="message" style="display: none;">用户不能登陆，请先激活邮箱</div>
-{%elseif isset($message) &&$message eq "error_user_or_password"%}   
-    <div id="message" style="display: none;">密码错误或用户名不正确</div>
-{%elseif isset($message) &&$message eq "error_sign_in"%}   
-    <div id="message" style="display: none;">请先登陆</div>
-{%elseif isset($message) &&$message eq "error_sign_out"%}   
-    <div id="message" style="display: none;">请先退出</div>
+{%if isset($message) &&$message eq "error_not_activation"%}
+    <div id="message" >用户不能登陆，请先激活邮箱</div>
+{%elseif isset($message) &&$message eq "error_user_or_password"%}
+    <div id="message" >密码错误或用户名不正确</div>
+{%elseif isset($message) &&$message eq "error_sign_in"%}
+    <div id="message" >请先登陆</div>
+{%elseif isset($message) &&$message eq "error_sign_out"%}
+    <div id="message" >请先退出</div>
 {%else $message==""%}
-    <div id="message" style="display: none;"></div>
+    <div id="message" ></div>
 {%/if%}
 {%include file='client/share/_footer.html'%}

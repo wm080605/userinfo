@@ -9,7 +9,7 @@ class Logic_user extends CI_Model
     public function get_all()
     {
         $num = $this->db->get('user');
-        return $num->result_array();  
+        return $num->result_array();
     }
 
     public function add($data)
@@ -49,9 +49,9 @@ class Logic_user extends CI_Model
 
     public function activation_update($userdata)
     {
-        $this->db->set('token_time', $userdata['token_time']); 
+        $this->db->set('token_time', $userdata['token_time']);
         $this->db->set('token', $userdata['token']);
-        $this->db->where('id', $userdata['id']);   
+        $this->db->where('id', $userdata['id']);
         return $this->db->update('user');
     }
 }

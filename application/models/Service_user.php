@@ -8,7 +8,7 @@ class Service_user extends CI_Model
     }
     public function get_user_info($data)
     {   
-        return  $this->Logic_user->get_user($data);   
+        return  $this->Logic_user->get_user($data);
     }
 
     public function register_add($data)
@@ -18,7 +18,7 @@ class Service_user extends CI_Model
 
     public function admin_center()
     {
-        return $result = $this->Logic_user->get_all();    
+        return $result = $this->Logic_user->get_all();
     }
 
     public function isexist_email($emaildata)
@@ -31,7 +31,7 @@ class Service_user extends CI_Model
         $this->load->library('form_validation');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+        $this->form_validation->set_rules('passconf', 'Passconf', 'required|matches[password]');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('phone', 'Phone', 'required|min_length[11]');
         $this->form_validation->set_rules('sex', 'Sex', 'required');
@@ -77,7 +77,8 @@ class Service_user extends CI_Model
         $this->load->library('parser');
         $token = $data['token'];
    
-        $this->email->from('wangm@playable.cn');    
+        // $this->email->initialize($config);
+        $this->email->from('wangm@playable.cn');
         $this->email->to($data['email']);
         $this->email->subject('用户帐号激活');
 
@@ -120,7 +121,6 @@ class Service_user extends CI_Model
 
     public function create_token()
     {
-        $token = md5(uniqid());
-        return $token;
+        return $token = md5(uniqid());
     }
 }

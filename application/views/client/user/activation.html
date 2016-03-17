@@ -2,16 +2,16 @@
 {%form_open('/client/user/again_activation','class="form-signin" id="login"')%}
     <input name="email" type="text" class="form-control" id="email" placeholder="Email">
     <input type="submit" value="重新发送激活邮件" class="btn btn-lg btn-primary btn-block"/>
-{%form_close()%}
-{%if $message eq "error_send_fail"%}
-    <div id="message" style="display: none;">发送失败，请重发</div>
-{%elseif $message eq "activation_success"%}   
-    <div id="message" style="display: none;">激活链接已发送</div>
-{%elseif $message eq "email_not_correct"%}   
-    <div id="message" style="display: none;">邮箱不正确或邮箱已激活</div>
-{%elseif $message eq "activation_time_out"%}   
-    <div id="message" style="display: none;">您的激活有效期已过,请输入注册邮箱重新激活</div>   
-{%else%}
-    <div id="message" style="display: none;"></div>
+{%if isset($message) &&$message eq "error_send_fail"%}
+    <div id="message" >发送失败，请重发</div>
+{%elseif isset($message) &&$message eq "activation_success"%}   
+    <div id="message" >激活链接已发送</div>
+{%elseif isset($message) &&$message eq "email_not_correct"%}   
+    <div id="message" >邮箱不正确或邮箱已激活</div>
+{%elseif isset($message) &&$message eq "activation_time_out"%}   
+    <div id="message" >您的激活有效期已过,请输入注册邮箱重新激活</div>   
+{%else $message==""%}
+    <div id="message"></div>
 {%/if%}
+{%form_close()%}
 {%include file='client/share/_footer.html'%}
