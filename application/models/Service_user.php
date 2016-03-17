@@ -78,7 +78,7 @@ class Service_user extends CI_Model
         $token = $data['token'];
         
         $this->load->config('email', true);
-        //获取email配置项
+        //item()获取email配置项  
         $email_config = $this->config->item('email');
         $this->load->library('email');
         $this->email->from($email_config['from']);
@@ -90,7 +90,7 @@ class Service_user extends CI_Model
             'link' =>  base_url('client/user/activation').'?token='.$token
             );
         $this->email->message($this->parser->parse('template/register_temp', $list));
-        
+
         if( $this->email->send())
         {
             return TRUE;
@@ -106,8 +106,8 @@ class Service_user extends CI_Model
     {
         $this->load->library('parser');
         $token = $data['token'];
-   
-        // $this->email->initialize($config);
+        
+        $this->load->library('email');
         $this->email->from('wangm@playable.cn');
         $this->email->to($data['email']);
         $this->email->subject('找回密码');

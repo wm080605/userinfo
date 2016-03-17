@@ -1,6 +1,12 @@
 <?php
 class User extends CI_Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Service_user');
+    }
+
     public function index()
     {
         $data = $this->session->userdata('user');
@@ -31,7 +37,7 @@ class User extends CI_Controller
         $password = $this->input->post('password');
 
         $data = array('email' => $email);
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $userdata = $this->Service_user->get_user_info($data);
 
         if($userdata && $userdata['password'] == md5($password))
@@ -70,7 +76,7 @@ class User extends CI_Controller
 
     public function register_submit()
     {
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $info = $this->input->post();
 
         $token = $this->Service_user->create_token();
@@ -158,7 +164,7 @@ class User extends CI_Controller
         $nowtime = time();
         $data = array('token' => $token);
 
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $userdata = $this->Service_user->get_user_info($data);
 
         if($userdata && $userdata['status'] == 0)
@@ -184,7 +190,7 @@ class User extends CI_Controller
 
     public function again_activation()
     {
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $email = $this->input->post('email');
         if($email == NULL)
         {
@@ -230,7 +236,7 @@ class User extends CI_Controller
 
     public function find_password()
     {
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $email = $this->input->post('email');
         $user_data = $this->Service_user->get_user_info(array('email' => $email));
         if($email == "")
@@ -276,7 +282,7 @@ class User extends CI_Controller
 
     public function reset_password()
     {
-        $this->load->model('Service_user');
+        // $this->load->model('Service_user');
         $token = $this->input->get('token');
         // var_dump($token);
         $nowtime = time();
