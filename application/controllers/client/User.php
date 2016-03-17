@@ -74,7 +74,7 @@ class User extends CI_Controller
         $info = $this->input->post();
 
         $token = $this->Service_user->create_token();
-        $token_out_time = time() + 60 * 60 * 24;
+        $token_out_time = $this->Service_user->create_token_out_time();
          
         $result = $this->Service_user->register_check();
         if ($result == TRUE)
@@ -197,7 +197,7 @@ class User extends CI_Controller
             $user_data = $this->Service_user->get_user_info(array('email' => $email));
             if($user_data['email'] && $user_data['status'] == 0 )
             {
-                $token_out_time = time() + 60 * 60 * 24;
+                $token_out_time = $this->Service_user->create_token_out_time();
                 $token = $this->Service_user->create_token();
                 $userdata = array(
                         'token' =>$token,
@@ -212,7 +212,7 @@ class User extends CI_Controller
                     // $userdata = array('email' => $email);
                     $this->Service_user->activation_fail_update(array('id' =>$userdata['id']));
                     $this->session->set_flashdata('message', 'error_send_fail');
-                    // redirect('client/user/again_activation');
+                    redirect('client/user/again_activation');
                 }
                 else
                 {
@@ -249,7 +249,7 @@ class User extends CI_Controller
             else
             {
                 $token = $this->Service_user->create_token();
-                $token_out_time = time() + 60 * 60 * 24;
+                $token_out_time = $this->Service_user->create_token_out_time();
                 // $token_out_time = time();
                 $userdata = array(
                     'token' => $token,
@@ -304,7 +304,7 @@ class User extends CI_Controller
 
     public function update_password()
     {
-        
+
     }
 
     public function sign_out()

@@ -77,23 +77,20 @@ class Service_user extends CI_Model
         $this->load->library('parser');
         $token = $data['token'];
         
-        // $this->load->config('email', true);
-        // $email_config = $this->config->item('email');
-        // $this->load->library('email', $email_config);
-        // // $this->email->initialize($email_config);
-        // $this->email->from($email_config['from']);
+        $this->load->config('email', true);
+        //获取email配置项
+        $email_config = $this->config->item('email');
+        $this->load->library('email');
+        $this->email->from($email_config['from']);
         $this->email->to($data['email']);
         $this->email->subject('用户帐号激活');
 
-        // $list = array(
-        //     'name' => $data['name'],
-        //     'link' =>  base_url('client/user/activation').'?token='.$token
-        //     );
-        // $this->email->message($this->parser->parse('template/register_temp', $list));
-
-        $this->email->message('aaaaaaaaaaaaaaaa');
-
-
+        $list = array(
+            'name' => $data['name'],
+            'link' =>  base_url('client/user/activation').'?token='.$token
+            );
+        $this->email->message($this->parser->parse('template/register_temp', $list));
+        
         if( $this->email->send())
         {
             return TRUE;
@@ -170,5 +167,10 @@ class Service_user extends CI_Model
     public function create_token()
     {
         return $token = md5(uniqid());
+    }
+
+    public function create_token_out_time()
+    {
+        return $token_out_time = time() + 60 * 60 * 24;
     }
 }
