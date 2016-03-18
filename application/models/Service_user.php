@@ -11,6 +11,11 @@ class Service_user extends CI_Model
         return  $this->Logic_user->get_user($data);
     }
 
+    public function update_user_info($data, $user_id)
+    {
+        return $this->Logic_user->update_user($data, $user_id);
+    }
+
     public function register_add($data)
     {
         return $this->Logic_user->add($data);
@@ -107,11 +112,13 @@ class Service_user extends CI_Model
         $this->load->library('parser');
         $token = $data['token'];
         
+        $this->load->config('email',true);
+        $email_config = $this->config->item('email');
         $this->load->library('email');
-        $this->email->from('wangm@playable.cn');
+
+        $this->email->from($email_config['from']);
         $this->email->to($data['email']);
         $this->email->subject('找回密码');
-
         $list = array(
             'name' => $data['name'],
             'link' =>  base_url('client/user/reset_password').'?token='.$token
@@ -128,42 +135,7 @@ class Service_user extends CI_Model
             return FALSE;
         }
     }
-
-    public function send_email_fail_update($userdata)
-    {
-        return $this->Logic_user->email_fail_update($userdata);
-    }
-
-    public function activation_fail_update($userdata)
-    {
-        return $this->Logic_user->fail_update($userdata);
-    }
-
-    public function send_password_fail_update($userdata)
-    {
-        return $this->Logic_user->fail_update($userdata);
-    }
-
-    public function activation_success_update($userdata)
-    {
-        return $this->Logic_user->update($userdata);
-    }
-
-    public function again_activation_update($userdata)
-    {
-        return $this->Logic_user->activation_update($userdata);
-    }
-
-    public function find_password_token_update($userdata)
-    {
-        return $this->Logic_user->activation_update($userdata);
-    }
-
-    public function update_password($userdata)
-    {
-        return $this->Logic_user->password_update($userdata);
-    }
-
+    
     public function create_token()
     {
         return $token = md5(uniqid());

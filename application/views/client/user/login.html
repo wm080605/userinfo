@@ -7,19 +7,21 @@
     <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
     <a href="{%site_url('client/user/register')%}">注   册</a>
     <span >|</span>
-    <a  href="{%site_url('client/user/again_activation')%}">重新发送激活邮件</a>
+    <a  href="{%site_url('client/user/again_activation')%}">重新发送注册激活邮件</a>
     <span >|</span>
     <a  href="{%site_url('client/user/find_password')%}">找回密码</a>
 {%form_close()%}
 {%if isset($message) &&$message eq "error_not_activation"%}
-    <div id="message" >用户不能登陆，请先激活邮箱</div>
+<div id="message" >用户不能登陆，请先激活邮箱</div>
 {%elseif isset($message) &&$message eq "error_user_or_password"%}
-    <div id="message" >密码错误或用户名不正确</div>
+<div id="message" >密码错误或用户名不正确</div>
 {%elseif isset($message) &&$message eq "error_sign_in"%}
-    <div id="message" >请先登陆</div>
+<div id="message" >请先登陆</div>
 {%elseif isset($message) &&$message eq "error_sign_out"%}
-    <div id="message" >请先退出</div>
+<div id="message" >请先退出</div>
+{%elseif isset($message) &&$message eq "update_password_success"%}
+<div id="message" >修改密码成功</div>
 {%else $message==""%}
-    <div id="message" ></div>
+<div id="message" ></div>
 {%/if%}
 {%include file='client/share/_footer.html'%}

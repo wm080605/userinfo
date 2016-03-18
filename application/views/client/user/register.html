@@ -1,6 +1,6 @@
 {%include file='client/share/_header.html'%}
     <!-- <script type="text/javascript " src="/resources/js/register_check.js"></script> -->
-    <script type="text/javascript " src="/resources/js/provice.js"></script>
+<script type="text/javascript " src="/resources/js/provice.js"></script>
 {%form_open_multipart('client/user/register_submit','id="register"')%}
     <div class="form-group">   
         <label >Name</label>
@@ -8,10 +8,10 @@
         {%form_error('username','<label class="error">','</lable>')%}
     </div>
     <div class="form-group">
-        <label>Password</label>
+        <label>Password</label> 
         <input class="form-control" type="password" name="password" id="password" value="{%set_value('password')%}"/>
         {%form_error('password','<label class="error">','</lable>')%}
-    </div> 
+    </div>
     <div class="form-group">
         <label>Passconf</label>
         <input class="form-control" type="password" name="passconf" value="{%set_value('passconf')%}"/>
@@ -32,7 +32,7 @@
         <input type="radio" name="sex" value="0"{%set_radio('sex','0')%}/>女
         <input type="radio" name="sex" value="1"{%set_radio('sex','1')%}/>男
         {%form_error('sex','<label class="error">','</lable>')%}
-    </div>    
+    </div>
     <div class="form-group">
         <label >Address</label>
         <select class="form-control" id="loc_province" name="provice">
@@ -48,12 +48,12 @@
     <input type="submit" value="submit" class="btn  btn-primary"/>
 {%form_close()%}
 {%if isset($message) &&$message eq "email_exist"%}
-    <div id="message" >邮箱已经使用</div>
+<div id="message" >邮箱已经使用</div>
 {%elseif isset($message) &&$message eq "error_send_fail"%}
-    <div id="message">邮件发送失败</div>
+<div id="message">邮件发送失败</div>
 {%elseif isset($message) &&$message eq "error_mysql"%}
-    <div id="message">数据库添加失败</div>
-{%else $message==""%}   
-    <div id="message"></div>
+<div id="message">数据库添加失败</div>
+{%else $message==""%}
+<div id="message"></div>
 {%/if%}
 {%include file='client/share/_footer.html'%}

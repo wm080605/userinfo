@@ -18,12 +18,12 @@
         </tr>
         {%/foreach%}
     </table>
-{%if isset($message) &&$message eq "error_sign_out"%}   
+{%if isset($message) &&$message eq "error_sign_out"%}
     <div id="message">请先退出</div>
-    {%elseif isset($message) &&$message eq "error_sign_in"%}   
+    {%elseif isset($message) &&$message eq "error_sign_in"%}
     <div id="message">请先登陆</div>
-    {%else $message==""%}   
+    {%else $message==""%}
     <div id="message"></div> 
 {%/if%}
-    <a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a> 
+    <a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a>
 {%include file='admin/share/_footer.html'%}
