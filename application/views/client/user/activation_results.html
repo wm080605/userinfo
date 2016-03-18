@@ -1,0 +1,10 @@
+{%include file='client/share/_header.html'%}
+{%if isset($message) &&$message eq "activation_success"%}
+<div id="message">激活成功!!!!</div>
+{%elseif isset($message) &&$message eq "activation_fail"%}
+<div id="message">激活失败!!!!</div>
+{%else $message==""%}
+<div id="message" ></div>
+{%/if%}
+<a class="btn btn-primary" role="button" href="{%base_url('client/user')%}">返 回</a>
+{%include file='client/share/_footer.html'%}

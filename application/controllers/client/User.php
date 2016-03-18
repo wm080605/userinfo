@@ -73,60 +73,32 @@ class User extends CI_Controller
         $this->load->model('Service_user');
         $info = $this->input->post();
 
-        $token = $this->Service_user->create_token();
-        $token_out_time = $this->Service_user->create_token_out_time();
-         
-        $result = $this->Service_user->register_check();
-        if ($result == TRUE)
-        {
-            $emaildata = array('email' => $info['email']);
-            $emailresult = $this->Service_user->isexist_email($emaildata);
-            if($emailresult)
-            {
-                $this->cismarty->assign('message', 'email_exist');
-                $this->cismarty->display('client/user/register.html');
-            }
-            else
-            {
-                $data = array(
-                        'name' => $info['username'],
-                        'email' => $info['email'],
-                        'password' =>md5($info['password']),
-                        'createtime' => date("Y-m-d H:i:s"),
-                        'token_time' => $token_out_time,
-                        'token' => $token
-                );
-                $add_result = $this->Service_user->register_add($data);
-                if($add_result == TRUE)
-                {
-                    $email_res = $this->Service_user->send_email($data);
-                    if($email_res == FALSE)
-                    {
-                        $userdata = $this->Service_user->get_user_info(array('email' =>$info['email']));
-                        $data = array(
-                            'token' => NULL,
-                            'token_time' => NULL
-                        );
-                        $this->Service_user->update_user_info($data, array('id' => $userdata['id']));
-                        $this->cismarty->assign('message', 'error_send_fail');
-                        $this->cismarty->display('client/user/activation.html');
-                    }
-                    else
-                    {
-                        $this->session->set_flashdata('message','register_success');
-                        redirect('client/user/register_success');
-                    }
-                }
-                else
-                {
-                    $this->session->set_flashdata('message', 'error_mysql');
-                    redirect('client/user/register');
-                }
-            }
-        }
-        else
+        $result = $this->Service_user->register($info);
+        $this->Service_user->email_check(array('email' => $info['email']));
+        // var_dump($p);die();
+        if($result == 'register_check_fail')
         {
             $this->cismarty->display('client/user/register.html');
+        }
+        // if($result == 'email_exist')
+        // {   
+        //     $this->cismarty->assign('message', 'email_exist');
+        //     $this->cismarty->display('client/user/register.html');
+        // }
+        if($result == 'email_send_fail')
+        {
+            $this->cismarty->assign('message', 'email_send_fail');
+            redirect('client/user/again_send_activation');
+        }
+        if($result == 'register_success')
+        {
+            $this->session->set_flashdata('message','register_success');
+            redirect('client/user/register_results');
+        }
+        if($result == 'register_fail')
+        {
+            $this->session->set_flashdata('message', 'register_fail');
+            redirect('client/user/register_results');
         }
     }
 
@@ -146,146 +118,96 @@ class User extends CI_Controller
         }
     }
 
-    public function register_success()
+    public function register_results()
     {
         $data = $this->session->flashdata('message');
         $this->cismarty->assign('message', $data);
-        $this->cismarty->display('client/user/register_success.html');
+        $this->cismarty->display('client/user/register_results.html');
     }
 
     public function activation()
     {
         $token = $this->input->get('token');
-        $nowtime = time();
-        $data = array('token' => $token);
-
         $this->load->model('Service_user');
-        $userdata = $this->Service_user->get_user_info($data);
-
-        if($userdata && $userdata['status'] == 0)
+        $result = $this->Service_user->activation_model(array('token' => $token));
+        if($result == 'activation_timeout')
         {
-            if($nowtime > $userdata['token_time'])
-            {     
-                $this->cismarty->assign('message', "activation_time_out");
-                $data = array(
-                            'token' => NULL,
-                            'token_time' => NULL
-                        );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $this->cismarty->display('client/user/activation.html');
-            }
-            else
-            {
-                $data =  array(
-                    'token' => NULL,
-                    'token_time' => NULL,
-                    'status' => 1
-                );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $this->cismarty->display('client/user/activation_success.html');
-            }
+            $this->session->set_flashdata('message', 'activation_timeout');
+            redirect('client/user/again_send_activation');
         }
-        else
+        if($result == 'activation_success')
         {
-            $this->cismarty->display('client/user/activation_fail.html');
+            $this->session->set_flashdata('message', 'activation_success');
+            redirect('client/user/activation_results');
+        }
+        if($result == 'activation_fail')
+        {
+            $this->session->set_flashdata('message', 'activation_fail');
+            redirect('client/user/activation_results');
+        }
+    }
+    public function send_activation()
+    {
+        $data = $this->session->flashdata('message');
+        $this->cismarty->assign('message',$data);
+        $this->cismarty->display('client/user/again_send_activation.html');
+    }
+
+    public function again_send_activation()
+    {
+        $email = $this->input->post('email');
+        $this->load->model('Service_user');
+        $result = $this->Service_user->again_send_activation_model(array('email' => $email));
+        if($result == 'error_send_fail')
+        {
+            $this->session->set_flashdata('message', 'email_send_fail');
+            redirect('client/user/send_activation');
+        }
+        if($result == 'email_send_success')
+        {
+            $this->session->set_flashdata('message', 'email_send_success');
+            redirect('client/user/send_activation');
+        }
+        if($result == 'email_not_exist')
+        {
+            $this->session->set_flashdata('message', 'email_not_exist');
+            redirect('client/user/send_activation');
         }
     }
 
-    public function again_activation()
+    public function activation_results()
     {
-        $this->load->model('Service_user');
-        $email = $this->input->post('email');
-        if($email == NULL)
-        {
-            $data = $this->session->flashdata('message');
-            $this->cismarty->assign('message',$data);
-            $this->cismarty->display('client/user/activation.html');
-        }
-        else
-        {
-            $userdata = $this->Service_user->get_user_info(array('email' => $email));
-            if($userdata['email'] && $userdata['status'] == 0 )
-            {
-                $token_out_time = $this->Service_user->create_token_out_time();
-                $token = $this->Service_user->create_token();
-                $data = array(
-                        'token' =>$token,
-                        'token_time' =>$token_out_time,
-                        'id' => $userdata['id']
-                );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $data = $this->Service_user->get_user_info(array('id' => $userdata['id']));
-                $result = $this->Service_user->send_email($data);
-                if($result == FALSE)
-                {
-                    $data = array(
-                        'token' =>NULL,
-                        'token_time' =>NULL
-                );
-                    $this->Service_user->activation_fail_update($data, $userdata['id']);
-                    $this->session->set_flashdata('message', 'error_send_fail');
-                    redirect('client/user/again_activation');
-                }
-                else
-                {
-                    $this->session->set_flashdata('message', 'error_send_success');
-                    redirect('client/user/again_activation');
-                }
-            }
-            else
-            {
-                $this->session->set_flashdata('message', 'email_not_correct');
-                redirect('client/user/again_activation');
-            }
-        }
+        $data = $this->session->flashdata('message');
+        $this->cismarty->assign('message', $data);
+        $this->cismarty->display('client/user/activation_results.html');
     }
 
-    public function find_password()
+    public function send_password()
+    {
+        $data = $this->session->flashdata('message');
+        $this->cismarty->assign('message', $data);
+        $this->cismarty->display('client/user/send_password_email.html');
+    }
+
+    public function send_password_email()
     {
         $this->load->model('Service_user');
         $email = $this->input->post('email');
-        $userdata = $this->Service_user->get_user_info(array('email' => $email));
-        if($email == "")
+        $result = $this->Service_user->send_password_email_model(array('email' => $email));
+        if($result == 'error_not_register')
         {
-            $data = $this->session->flashdata('message');
-            $this->cismarty->assign('message', $data);
-            $this->cismarty->display('client/user/find_password.html');
+            $this->session->set_flashdata('message', 'email_not_register');
+            redirect('client/user/send_password');
         }
-        else
+        if($result == 'error_send_fail')
         {
-            if(!$userdata)
-            {
-                $data = $this->session->set_flashdata('message', 'error_not_register');
-                redirect('client/user/find_password');
-            }
-            else
-            {
-                $token = $this->Service_user->create_token();
-                $token_out_time = $this->Service_user->create_token_out_time();
-                $data = array(
-                    'token' => $token,
-                    'token_time' => $token_out_time,
-                    'id' => $userdata['id']
-                );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $data = $this->Service_user->get_user_info(array('id' => $userdata['id']));
-                $result = $this->Service_user->send_password_email($data);
-                if($result == FALSE)
-                {
-                    $data = array(
-                        'token' => NULL,
-                        'token_time' => NULL
-                    );
-                    $this->Service_user->update_user_info($data, $userdata['id']);
-                    $this->session->set_flashdata('message', 'error_send_fail');
-                    redirect('client/user/find_password');
-                }
-                else
-                {
-                    $this->session->set_flashdata('message', 'error_send_success');
-                    redirect('client/user/find_password');
-                }
-            }
+            $this->session->set_flashdata('message', 'email_send_fail');
+            redirect('client/user/send_password');
+        }
+        if($result == 'error_send_success')
+        {
+            $this->session->set_flashdata('message', 'email_send_success');
+            redirect('client/user/send_password');
         }
     }
 
@@ -293,37 +215,28 @@ class User extends CI_Controller
     {
         $this->load->model('Service_user');
         $token = $this->input->get('token');
-        $nowtime = time();
-        $userdata = $this->Service_user->get_user_info(array('token' => $token));
-        
-        if($userdata['token'])
+        $result = $this->Service_user->reset_password_model(array('token' => $token));
+        if($result == 'link_timeout')
         {
-            if($nowtime > $userdata['token_time'])
-            {
-                $this->cismarty->assign('message', "password_time_out");
-                $data = array(
-                        'token' => NULL,
-                        'token_time' => NULL
-                    );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $this->cismarty->display('client/user/find_password.html');
-            }
-            else
-            {
-                $data = array(
-                        'token' => NULL,
-                        'token_time' => NULL,
-                        'password' =>NULL
-                );
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $this->session->set_flashdata('message', 'reset_password_success');
-                redirect('client/user/update_password');
-            }
+            $this->session->set_flashdata('message', 'link_timeout');
+            redirect('client/user/send_password');
         }
-        else
+        if($result == 'reset_password_success')
         {
-            $this->cismarty->display('client/user/reset_password_fail.html');
+            $this->session->set_flashdata('message', 'reset_password_success');
+            redirect('client/user/show_update_password');
         }
+        if($result == 'reset_password_fail')
+        {
+            $this->session->set_flashdata('message', 'reset_password_fail');
+            redirect('client/user/send_password');
+        }
+    }
+    public function show_update_password()
+    {
+        $data = $this->session->flashdata('message');
+        $this->cismarty->assign('message', $data);
+        $this->cismarty->display('client/user/update_password.html');
     }
 
     public function update_password()
@@ -332,34 +245,25 @@ class User extends CI_Controller
         $password = $this->input->post('password');
         $this->load->model('Service_user');
         $userdata = $this->Service_user->get_user_info(array('email' => $email));
-        if($email == '')
+        if($userdata)
         {
-            $data = $this->session->flashdata('message');
-            $this->cismarty->assign('message', $data);
-            $this->cismarty->display('client/user/update_password.html');
-        }
-        else
-        {
-            if($userdata)
+            if($userdata['password'] =='')
             {
-                if($userdata['password'] =='')
-                {
-                    $data = array('password' => md5($password));
-                    $this->Service_user->update_user_info($data, $userdata['id']);
-                    $this->session->set_flashdata('message', 'update_password_success');
-                    redirect('client/user');
-                }
-                else
-                {
-                    $this->session->set_flashdata('message', 'password_not_reset');
-                    redirect('client/user/update_password');
-                }         
+                $data = array('password' => md5($password));
+                $this->Service_user->update_user_info($data, $userdata['id']);
+                $this->session->set_flashdata('message', 'update_password_success');
+                redirect('client/user');
             }
             else
-            {   
-                $this->session->set_flashdata('message', 'email_not_exist');
-                redirect('client/user/update_password');
-            }
+            {
+                $this->session->set_flashdata('message', 'password_not_reset');
+                redirect('client/user/show_update_password');
+            }         
+        }
+        else
+        {   
+            $this->session->set_flashdata('message', 'email_not_exist');
+            redirect('client/user/show_update_password');
         }
     }
 

@@ -7,9 +7,9 @@
     <button id="submit" type="submit" class="btn btn-lg btn-primary btn-block">登 陆</button>
     <a href="{%site_url('client/user/register')%}">注   册</a>
     <span >|</span>
-    <a  href="{%site_url('client/user/again_activation')%}">重新发送注册激活邮件</a>
+    <a  href="{%site_url('client/user/send_activation')%}">重新发送注册激活邮件</a>
     <span >|</span>
-    <a  href="{%site_url('client/user/find_password')%}">找回密码</a>
+    <a  href="{%site_url('client/user/send_password')%}">找回密码</a>
 {%form_close()%}
 {%if isset($message) &&$message eq "error_not_activation"%}
 <div id="message" >用户不能登陆，请先激活邮箱</div>

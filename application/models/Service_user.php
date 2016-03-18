@@ -37,7 +37,7 @@ class Service_user extends CI_Model
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
         $this->form_validation->set_rules('passconf', 'Passconf', 'required|matches[password]');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
         $this->form_validation->set_rules('phone', 'Phone', 'required|min_length[11]');
         $this->form_validation->set_rules('sex', 'Sex', 'required');
         $this->form_validation->set_rules('city', 'Address', 'required');
@@ -57,6 +57,22 @@ class Service_user extends CI_Model
             return TRUE;
         }
     } 
+    public function email_check($data)
+    {
+        $email = $this->Logic_user->isexist($data);
+        var_dump($email['email']);
+        var_dump($data); die();
+        if(!$email)
+        {
+            return TRUE;   
+        }
+        else
+        {
+            $this->form_validation->set_message('email_check', 'The {field} isexist');
+            return FALSE;
+        }
+    }
+
     public function do_upload()
     {
         $config['upload_path'] = './uploads/';
@@ -135,7 +151,7 @@ class Service_user extends CI_Model
             return FALSE;
         }
     }
-    
+
     public function create_token()
     {
         return $token = md5(uniqid());
@@ -144,5 +160,199 @@ class Service_user extends CI_Model
     public function create_token_out_time()
     {
         return $token_out_time = time() + 60 * 60 * 24;
+        // return $token_out_time = time();
+    }
+
+    public function register($data)
+    {
+        $register_check_result = $this->Service_user->register_check();
+        if ($register_check_result == TRUE)
+        {
+            // $emaildata = array('email' => $data['email']);
+            // if($email_result)
+            // {
+            //     $result = 'email_exist';
+            // }
+            // else
+            // {
+            $token = $this->Service_user->create_token();
+            $token_out_time = $this->Service_user->create_token_out_time();
+            $userdata = array(
+                    'name' => $data['username'],
+                    'email' => $data['email'],
+                    'password' =>md5($data['password']),
+                    'createtime' => date("Y-m-d H:i:s"),
+                    'token_time' => $token_out_time,
+                    'token' => $token
+            );
+            $register_result = $this->Logic_user->add($userdata);
+            if($register_result == TRUE)
+            {
+                $send_email_result = $this->Service_user->send_email($userdata);
+                if($send_email_result == FALSE)
+                {
+                    $userdata = $this->Logic_user->get_user(array('email' => $data['email']));
+                    $data = array(
+                        'token' => NULL,
+                        'token_time' => NULL
+                    );
+                    $this->Logic_user->update_user($data, $userdata['id']);
+                    $result = 'error_send_fail';
+                }
+                else
+                {
+                    $result= 'register_success';
+                }
+            }
+            else
+            {
+                $result = 'register_fail';
+            }
+            // }
+        }
+        else
+        {
+            $result = 'register_check_fail';
+        }
+        return $result;
+    }
+
+    public function activation_model($tokendata)
+    {
+        $nowtime = time();
+        $userdata = $this->Logic_user->get_user($tokendata);
+
+        if($userdata && $userdata['status'] == 0)
+        {
+            if($nowtime > $userdata['token_time'])
+            {     
+                $data = array(
+                            'token' => NULL,
+                            'token_time' => NULL
+                        );
+                $this->Logic_user->update_user($data, $userdata['id']);
+                $result = 'activation_timeout';
+            }
+            else
+            {
+                $data =  array(
+                    'token' => NULL,
+                    'token_time' => NULL,
+                    'status' => 1
+                );
+                $this->Logic_user->update_user($data, $userdata['id']);
+                $result = 'activation_success';
+            }
+        }
+        else
+        {
+            $result = 'activation_fail';
+        }
+        return $result;
+    }
+
+    public function again_send_activation_model($email)
+    {
+        $userdata = $this->Logic_user->get_user($email);
+        if($userdata['email'] && $userdata['status'] == 0 )
+        {
+            $token_out_time = $this->Service_user->create_token_out_time();
+            $token = $this->Service_user->create_token();
+            $data = array(
+                    'token' =>$token,
+                    'token_time' =>$token_out_time,
+                    'id' => $userdata['id']
+            );
+            $this->Service_user->update_user_info($data, $userdata['id']);
+            $data = $this->Service_user->get_user_info(array('id' => $userdata['id']));
+            $result = $this->Service_user->send_email($data);
+            if($result == FALSE)
+            {
+                $data = array(
+                    'token' =>NULL,
+                    'token_time' =>NULL
+                );
+                $this->Service_user->activation_fail_update($data, $userdata['id']);
+                $result = 'error_send_fail';
+            }
+            else
+            {
+                $result = 'email_send_success';
+            }
+        }
+        else
+        {
+            $result = 'email_not_exist';
+        }
+        return $result;
+    }
+
+    public function send_password_email_model($email)
+    {
+        $userdata = $this->Logic_user->get_user($email);
+        if(!$userdata)
+        {
+            $result = 'error_not_register';
+        }
+        else
+        {
+            $token = $this->Service_user->create_token();
+            $token_out_time = $this->Service_user->create_token_out_time();
+            $data = array(
+                'token' => $token,
+                'token_time' => $token_out_time,
+                'id' => $userdata['id']
+            );
+            $this->Logic_user->update_user($data, $userdata['id']);
+            $data = $this->Logic_user->get_user(array('id' => $userdata['id']));
+            $result = $this->Service_user->send_password_email($data);
+            if($result == FALSE)
+            {
+                $data = array(
+                    'token' => NULL,
+                    'token_time' => NULL
+                );
+                $result = 'error_send_fail';
+            }
+            else
+            {
+                $result = 'error_send_success';
+            }
+        }
+        return $result;
+    }
+    
+    public function reset_password_model($tokendata)
+    {
+        $nowtime = time();
+        $userdata = $this->Logic_user->get_user($tokendata);
+        
+        if($userdata['token'])
+        {
+            if($nowtime > $userdata['token_time'])
+            {
+                $data = array(
+                        'token' => NULL,
+                        'token_time' => NULL
+                );
+                $this->Logic_user->update_user($data, $userdata['id']);
+                $result = 'link_timeout';
+            }
+            else
+            {
+                $data = array(
+                        'token' => NULL,
+                        'token_time' => NULL,
+                        'password' =>NULL
+                );
+                $this->Service_user->update_user_info($data, $userdata['id']);
+                $result = 'reset_password_success';
+            }
+        }
+        else
+        {
+            $result = 'reset_password_fail';
+        }      
+        return $result;
     }
 }
