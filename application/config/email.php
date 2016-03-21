@@ -14,7 +14,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //         'newline' => "\r\n",
 //         'from' => 'wangm@playable.cn'
 //   );
-
 $config['protocol'] = 'smtp';
 $config['smtp_host'] = 'smtp.exmail.qq.com';
 $config['smtp_user'] = 'wangm@playable.cn';

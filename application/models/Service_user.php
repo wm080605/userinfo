@@ -26,18 +26,18 @@ class Service_user extends CI_Model
         return $result = $this->Logic_user->get_all();
     }
 
-    public function isexist_email($emaildata)
-    {
-        return $this->Logic_user->isexist($emaildata);
-    }
-
     public function register_check()
     {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
         $this->form_validation->set_rules('passconf', 'Passconf', 'required|matches[password]');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+        $this->form_validation->set_rules('email', 'Email', 
+                                                                    array('required', 
+                                                                                'valid_email', 
+                                                                                array('email_callable', array($this->Service_user,'email_check'))
+                                                                              )
+                                                                    );
         $this->form_validation->set_rules('phone', 'Phone', 'required|min_length[11]');
         $this->form_validation->set_rules('sex', 'Sex', 'required');
         $this->form_validation->set_rules('city', 'Address', 'required');
@@ -57,19 +57,20 @@ class Service_user extends CI_Model
             return TRUE;
         }
     } 
+
     public function email_check($data)
     {
-        $email = $this->Logic_user->isexist($data);
-        var_dump($email['email']);
-        var_dump($data); die();
-        if(!$email)
+        $this->load->library('form_validation');
+        $emaildata = array('email' => $data);
+        $email = $this->Logic_user->isexist($emaildata);
+        if($data == $email['email'])
         {
-            return TRUE;   
+            $this->form_validation->set_message('email_callable', 'The {field} exist');
+            return FALSE;
         }
         else
         {
-            $this->form_validation->set_message('email_check', 'The {field} isexist');
-            return FALSE;
+            return TRUE;
         }
     }
 
@@ -168,13 +169,6 @@ class Service_user extends CI_Model
         $register_check_result = $this->Service_user->register_check();
         if ($register_check_result == TRUE)
         {
-            // $emaildata = array('email' => $data['email']);
-            // if($email_result)
-            // {
-            //     $result = 'email_exist';
-            // }
-            // else
-            // {
             $token = $this->Service_user->create_token();
             $token_out_time = $this->Service_user->create_token_out_time();
             $userdata = array(
@@ -191,13 +185,14 @@ class Service_user extends CI_Model
                 $send_email_result = $this->Service_user->send_email($userdata);
                 if($send_email_result == FALSE)
                 {
-                    $userdata = $this->Logic_user->get_user(array('email' => $data['email']));
+                    // $userdata = $this->Logic_user->get_user(array('email' => $data['email']));
+                    $user_id = $this->db->insert_id();
                     $data = array(
                         'token' => NULL,
                         'token_time' => NULL
                     );
-                    $this->Logic_user->update_user($data, $userdata['id']);
-                    $result = 'error_send_fail';
+                    $this->Logic_user->update_user($data, $user_id);
+                    $result = 'email_send_fail';
                 }
                 else
                 {
@@ -208,7 +203,6 @@ class Service_user extends CI_Model
             {
                 $result = 'register_fail';
             }
-            // }
         }
         else
         {
@@ -263,8 +257,8 @@ class Service_user extends CI_Model
                     'token_time' =>$token_out_time,
                     'id' => $userdata['id']
             );
-            $this->Service_user->update_user_info($data, $userdata['id']);
-            $data = $this->Service_user->get_user_info(array('id' => $userdata['id']));
+            $this->Logic_user->update_user($data, $userdata['id']);
+            $data = $this->Logic_user->get_user(array('id' => $userdata['id']));
             $result = $this->Service_user->send_email($data);
             if($result == FALSE)
             {

@@ -74,17 +74,11 @@ class User extends CI_Controller
         $info = $this->input->post();
 
         $result = $this->Service_user->register($info);
-        $this->Service_user->email_check(array('email' => $info['email']));
-        // var_dump($p);die();
+        $this->Service_user->email_check($info['email']);
         if($result == 'register_check_fail')
         {
             $this->cismarty->display('client/user/register.html');
         }
-        // if($result == 'email_exist')
-        // {   
-        //     $this->cismarty->assign('message', 'email_exist');
-        //     $this->cismarty->display('client/user/register.html');
-        // }
         if($result == 'email_send_fail')
         {
             $this->cismarty->assign('message', 'email_send_fail');
@@ -247,7 +241,7 @@ class User extends CI_Controller
         $userdata = $this->Service_user->get_user_info(array('email' => $email));
         if($userdata)
         {
-            if($userdata['password'] =='')
+            if($userdata['password'] == '')
             {
                 $data = array('password' => md5($password));
                 $this->Service_user->update_user_info($data, $userdata['id']);
