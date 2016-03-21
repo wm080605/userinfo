@@ -47,13 +47,4 @@
     </div>   -->  
     <input type="submit" value="submit" class="btn  btn-primary"/>
 {%form_close()%}
-{%if isset($message) &&$message eq "email_exist"%}
-<div id="message" >邮箱已经使用</div>
-{%elseif isset($message) &&$message eq "error_send_fail"%}
-<div id="message">邮件发送失败</div>
-{%elseif isset($message) &&$message eq "error_mysql"%}
-<div id="message">数据库添加失败</div>
-{%else $message==""%}
-<div id="message"></div>
-{%/if%}
 {%include file='client/share/_footer.html'%}

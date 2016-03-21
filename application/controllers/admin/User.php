@@ -16,7 +16,7 @@ class User extends CI_Controller
         }
         else
         {
-            $this->session->set_flashdata('message','error_sign_in');
+            $this->session->set_flashdata('message','not_sign_in');
             redirect('client/user');
         }
 

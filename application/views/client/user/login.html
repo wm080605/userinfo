@@ -9,19 +9,17 @@
     <span >|</span>
     <a  href="{%site_url('client/user/send_activation')%}">重新发送注册激活邮件</a>
     <span >|</span>
-    <a  href="{%site_url('client/user/send_password')%}">找回密码</a>
+    <a  href="{%site_url('client/user/forget_password')%}">找回密码</a>
 {%form_close()%}
-{%if isset($message) &&$message eq "error_not_activation"%}
-<div id="message" >用户不能登陆，请先激活邮箱</div>
-{%elseif isset($message) &&$message eq "error_user_or_password"%}
-<div id="message" >密码错误或用户名不正确</div>
-{%elseif isset($message) &&$message eq "error_sign_in"%}
-<div id="message" >请先登陆</div>
-{%elseif isset($message) &&$message eq "error_sign_out"%}
-<div id="message" >请先退出</div>
-{%elseif isset($message) &&$message eq "update_password_success"%}
-<div id="message" >修改密码成功</div>
-{%else $message==""%}
-<div id="message" ></div>
+{%if isset($message)%}
+    {%if $message eq "user_not_activation"%}
+    <div id="message" >用户不能登陆，请先激活邮箱</div>
+    {%elseif $message eq "error_user_or_password"%}
+    <div id="message" >密码错误或用户名不正确</div>
+    {%elseif $message eq "not_sign_in"%}
+    <div id="message" >请先登陆</div>
+    {%elseif $message eq "update_password_success"%}
+    <div id="message" >修改密码成功</div>
+    {%/if%}
 {%/if%}
 {%include file='client/share/_footer.html'%}

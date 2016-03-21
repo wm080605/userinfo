@@ -3,7 +3,7 @@ class Logic_user extends CI_Model
 {
     public function get_user($data)
     {
-        return $this->db->get_where('user', $data)->row_array();
+        return  $this->db->get_where('user', $data)->row_array();
     }
 
     public function get_all()
@@ -13,7 +13,8 @@ class Logic_user extends CI_Model
 
     public function add($data)
     {
-        return $this->db->insert('user', $data);
+        $this->db->insert('user', $data);
+        return $this->db->insert_id();
     }
 
     public function isexist($emaildata)
