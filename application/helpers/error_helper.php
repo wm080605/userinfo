@@ -46,9 +46,13 @@ function error_message($data)
         case 'register_fail':
             $message = '注册失败';
             break;
+        case 'email_not_exist _or_activation':
+            $message = '邮箱不存在或已激活';
+            break;
         default:
         $message = '';
             break;
     }
     return $message;
 }
+

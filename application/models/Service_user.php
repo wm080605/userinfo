@@ -280,7 +280,7 @@ class Service_user extends CI_Model
         }
         else
         {
-            $result = 'email_not_exist';
+            $result = 'email_not_exist _or_activation';
         }
         return $result;
     }

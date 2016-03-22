@@ -150,11 +150,10 @@ class User extends CI_Controller
         $email = $this->input->post('email');
         $this->load->model('Service_user');
         $result = $this->Service_user->again_register_activation(array('email' => $email));
-        if($result == 'error_send_fail' || $result == 'email_send_success' || $result == 'email_not_exist')
-        {
-            $this->session->set_flashdata('message', $result);
-            redirect('client/user/send_activation');
-        }
+        $result == 'email_send_fail' ||'email_send_success' ||'email_not_exist _or_activation';
+        $this->session->set_flashdata('message', $result);
+        redirect('client/user/send_activation');
+
     }
 
     public function register_activation_results()
@@ -178,11 +177,9 @@ class User extends CI_Controller
         $this->load->model('Service_user');
         $email = $this->input->post('email');
         $result = $this->Service_user->send_forget_password_email(array('email' => $email));
-        if($result == 'email_not_exist' || $result == 'email_send_fail' || $result == 'email_send_success')
-        {
-            $this->session->set_flashdata('message', $result);
-            redirect('client/user/forget_password');
-        }
+        $result == 'email_not_exist' ||  'email_send_fail' || 'email_send_success';
+        $this->session->set_flashdata('message', $result);
+        redirect('client/user/forget_password');
     }
 
     public function reset_password_authentication()
@@ -203,6 +200,7 @@ class User extends CI_Controller
     public function set_new_password()
     {
         $data = $this->session->flashdata('message');
+        var_dump($data);
         $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/update_password.html');
@@ -219,19 +217,15 @@ class User extends CI_Controller
         );
         $this->load->model('Service_user');
         $result = $this->Service_user->update_password($data);
+        var_dump($result);
         if($result == 'update_password_success')
         {
              $this->session->set_flashdata('message', 'update_password_success');
              redirect('client/user');
         }
-        if($result = 'password_not_reset')
+        if($result == 'password_not_reset' || $result == 'email_not_exist')
         {
-            $this->session->set_flashdata('message', 'password_not_reset');
-            redirect('client/user/set_new_password');
-        }
-        if($result = 'email_not_exist')
-        {
-            $this->session->set_flashdata('message', 'email_not_exist');
+            $this->session->set_flashdata('message', $result);
             redirect('client/user/set_new_password');
         }
     }
