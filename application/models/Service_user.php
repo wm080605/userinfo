@@ -140,7 +140,7 @@ class Service_user extends CI_Model
         $this->email->subject('找回密码');
         $list = array(
             'name' => $data['name'],
-            'link' =>  base_url('client/user/reset_password').'?token='.$token
+            'link' =>  base_url('client/user/reset_password_authentication').'?token='.$token
             );
         $this->email->message($this->parser->parse('template/find_password_temp', $list));
 
@@ -157,12 +157,12 @@ class Service_user extends CI_Model
 
     public function create_token()
     {
-        return $token = md5(uniqid());
+        return md5(uniqid());
     }
 
     public function create_token_out_time()
     {
-        return $token_out_time = time() + 60 * 60 * 24;
+        return time() + 60 * 60 * 24;
         // return $token_out_time = time();
     }
 
@@ -226,7 +226,7 @@ class Service_user extends CI_Model
                             'token_out_time' => NULL
                         );
                 $this->Logic_user->update_user($data, $userdata['id']);
-                $result = 'activation_timeout';
+                $result = 'link_timeout';
             }
             else
             {
@@ -302,7 +302,7 @@ class Service_user extends CI_Model
                 'id' => $userdata['id']
             );
             $this->Logic_user->update_user($data, $userdata['id']);
-            // $data = $this->Logic_user->get_user(array('id' => $userdata['id']));
+
             $data = array(
                 'name' => $userdata['name'],
                 'email' => $userdata['email'],
@@ -325,7 +325,7 @@ class Service_user extends CI_Model
         return $result;
     }
     
-    public function reset_password_model($token)
+    public function reset_password_authentication($token)
     {
         $nowtime = time();
         $userdata = $this->Logic_user->get_user($token);
@@ -346,10 +346,10 @@ class Service_user extends CI_Model
                 $data = array(
                         'token' => NULL,
                         'token_out_time' => NULL,
-                        'password' =>NULL
+                        'authentication' => 1
                 );
                 $this->Logic_user->update_user($data, $userdata['id']);
-                $result = 'reset_password_success';
+                $result = 'authentication_success';
             }
         }
         else
@@ -357,5 +357,30 @@ class Service_user extends CI_Model
             $result = 'link_not_exist';
         }      
         return $result;
+    }
+
+    public function update_password($data)
+    {
+        $userdata = $this->Logic_user->get_user(array('email' => $data['email']));
+        if(!$userdata)
+        {
+            return 'email_not_exist';
+        }
+        else
+        {   
+            if($userdata['authentication'] == 1)
+            {
+                $data = array(
+                    'authentication' => 0,
+                    'password' => $data['password']
+                );
+                $this->Logic_user->update_user($data, $userdata['id']);
+                return 'update_password_success';
+            }
+            else
+            {
+                return 'password_not_reset';
+            } 
+        }
     }
 }

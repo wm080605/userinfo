@@ -116,6 +116,7 @@ class User extends CI_Controller
     public function register_results()
     {
         $data = $this->session->flashdata('message');
+        $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/register_results.html');
     }
@@ -125,9 +126,9 @@ class User extends CI_Controller
         $token = $this->input->get('token');
         $this->load->model('Service_user');
         $result = $this->Service_user->register_activation(array('token' => $token));
-        if($result == 'activation_timeout')
+        if($result == 'link_timeout')
         {
-            $this->session->set_flashdata('message', 'activation_timeout');
+            $this->session->set_flashdata('message', 'link_timeout');
             redirect('client/user/send_activation');
         }
         if($result == 'activation_success' || $result == 'activation_fail')
@@ -139,6 +140,7 @@ class User extends CI_Controller
     public function send_activation()
     {
         $data = $this->session->flashdata('message');
+        $this->load->helper('error');
         $this->cismarty->assign('message',$data);
         $this->cismarty->display('client/user/again_send_activation.html');
     }
@@ -158,6 +160,7 @@ class User extends CI_Controller
     public function register_activation_results()
     {
         $data = $this->session->flashdata('message');
+        $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/activation_results.html');
     }
@@ -165,11 +168,12 @@ class User extends CI_Controller
     public function forget_password()
     {
         $data = $this->session->flashdata('message');
+        $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/send_password_email.html');
     }
 
-    public function send_forget_password()
+    public function send_forget_password_email()
     {
         $this->load->model('Service_user');
         $email = $this->input->post('email');
@@ -181,25 +185,25 @@ class User extends CI_Controller
         }
     }
 
-    public function reset_password()
+    public function reset_password_authentication()
     {
         $this->load->model('Service_user');
         $token = $this->input->get('token');
-        $result = $this->Service_user->reset_password_model(array('token' => $token));
+        $result = $this->Service_user->reset_password_authentication(array('token' => $token));
         if($result == 'link_timeout' || $result == 'link_not_exist')
         {
             $this->session->set_flashdata('message', $result);
             redirect('client/user/forget_password');
         }
-        if($result == 'reset_password_success')
+        if($result == 'authentication_success')
         {
-            $this->session->set_flashdata('message', 'reset_password_success');
-            redirect('client/user/show_update_password');
+            redirect('client/user/set_new_password');
         }
     }
-    public function show_update_password()
+    public function set_new_password()
     {
         $data = $this->session->flashdata('message');
+        $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/update_password.html');
     }
@@ -207,28 +211,28 @@ class User extends CI_Controller
     public function update_password()
     {
         $email = $this->input->post('email');
-        $password = $this->input->post('password');
+        $password = md5($this->input->post('password'));
+
+        $data = array(
+            'email' => $email,
+            'password' => $password
+        );
         $this->load->model('Service_user');
-        $userdata = $this->Service_user->get_user_info(array('email' => $email));
-        if($userdata)
+        $result = $this->Service_user->update_password($data);
+        if($result == 'update_password_success')
         {
-            if($userdata['password'] == '')
-            {
-                $data = array('password' => md5($password));
-                $this->Service_user->update_user_info($data, $userdata['id']);
-                $this->session->set_flashdata('message', 'update_password_success');
-                redirect('client/user');
-            }
-            else
-            {
-                $this->session->set_flashdata('message', 'password_not_reset');
-                redirect('client/user/show_update_password');
-            }         
+             $this->session->set_flashdata('message', 'update_password_success');
+             redirect('client/user');
         }
-        else
-        {   
+        if($result = 'password_not_reset')
+        {
+            $this->session->set_flashdata('message', 'password_not_reset');
+            redirect('client/user/set_new_password');
+        }
+        if($result = 'email_not_exist')
+        {
             $this->session->set_flashdata('message', 'email_not_exist');
-            redirect('client/user/show_update_password');
+            redirect('client/user/set_new_password');
         }
     }
 
