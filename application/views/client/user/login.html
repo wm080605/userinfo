@@ -11,15 +11,17 @@
     <span >|</span>
     <a  href="{%site_url('client/user/forget_password')%}">找回密码</a>
 {%form_close()%}
-{%if isset($message)%}
+<div id="message" >{%$message%}
+<!-- {%if isset($message)%}
     {%if $message eq "user_not_activation"%}
-    <div id="message" >用户不能登陆，请先激活邮箱</div>
+        用户不能登陆，请先激活邮箱
     {%elseif $message eq "error_user_or_password"%}
-    <div id="message" >密码错误或用户名不正确</div>
-    {%elseif $message eq "not_sign_in"%}
-    <div id="message" >请先登陆</div>
+        密码错误或用户名不正确
+    {%elseif $message eq "please_sign_in"%}
+        请先登陆
     {%elseif $message eq "update_password_success"%}
-    <div id="message" >修改密码成功</div>
+        修改密码成功
     {%/if%}
-{%/if%}
+{%/if%} -->
+</div>
 {%include file='client/share/_footer.html'%}

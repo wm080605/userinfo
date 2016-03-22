@@ -3,24 +3,26 @@ class User extends CI_Controller
 {
     public function index()
     {
+        
         $data = $this->session->userdata('user');
         if($data)
         {
+            $this->session->set_flashdata('message', 'please_sign_out');
             if($data['isadmin'] == TRUE)
             {
-                $this->session->set_flashdata('message', 'please_sign_out');
                 redirect('admin/user/admin_center');
             }
             else
             {
-                $this->session->set_flashdata('message', 'please_sign_out');
                 redirect('client/user/user_center');
             }
         }
         else
         {
             $data = $this->session->flashdata('message');
-            $this->cismarty->assign('message', $data);
+            $this->load->helper('login');
+            // var_dump(error($data)); 
+            $this->cismarty->assign('message', error($data));
             $this->cismarty->display('client/user/login.html');
         }
     }
@@ -99,13 +101,14 @@ class User extends CI_Controller
         $data = $this->session->userdata('user');
         if($data != NULL && $data['isadmin'] == FALSE)
         {
+            $this->cismarty->assign('name', $data['name']);
             $data = $this->session->flashdata('message');
             $this->cismarty->assign('message', $data);
             $this->cismarty->display('client/user/user_center.html');
         }
         else
         {
-            $this->session->set_flashdata('message', 'not_sign_in');
+            $this->session->set_flashdata('message', 'please_sign_in');
             redirect('client/user');
         }
     }

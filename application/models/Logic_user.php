@@ -17,7 +17,7 @@ class Logic_user extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function isexist($emaildata)
+    public function email_exist($emaildata)
     {
         return $this->db->get_where('user', $emaildata)->row_array();
     }
