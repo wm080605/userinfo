@@ -20,9 +20,9 @@ class User extends CI_Controller
         else
         {
             $data = $this->session->flashdata('message');
-            $this->load->helper('login');
-            // var_dump(error($data)); 
-            $this->cismarty->assign('message', error($data));
+            $this->load->helper('error');
+
+            $this->cismarty->assign('message', $data);
             $this->cismarty->display('client/user/login.html');
         }
     }

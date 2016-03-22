@@ -33,12 +33,12 @@ class Service_user extends CI_Model
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
         $this->form_validation->set_rules('passconf', 'Passconf', 'required|matches[password]');
         $this->form_validation->set_rules(
-            'email', 
-            'Email', 
-            array('required', 
-                        'valid_email', 
-                        array('email_callable', array($this->Service_user,'email_validation'))
-            )
+                'email', 
+                'Email', 
+                array('required', 
+                          'valid_email', 
+                          array('email_callable', array($this->Service_user,'email_validation'))
+                )
         );
         $this->form_validation->set_rules('phone', 'Phone', 'required|min_length[11]');
         $this->form_validation->set_rules('sex', 'Sex', 'required');
@@ -187,7 +187,6 @@ class Service_user extends CI_Model
                 $send_email_result = $this->send_email($userdata);
                 if($send_email_result == FALSE)
                 {
-                    // $userdata = $this->Logic_user->get_user(array('email' => $data['email']));
                     $user_id = $this->Logic_user->add();
                     $data = array(
                         'token' => NULL,

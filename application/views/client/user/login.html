@@ -11,17 +11,5 @@
     <span >|</span>
     <a  href="{%site_url('client/user/forget_password')%}">找回密码</a>
 {%form_close()%}
-<div id="message" >{%$message%}
-<!-- {%if isset($message)%}
-    {%if $message eq "user_not_activation"%}
-        用户不能登陆，请先激活邮箱
-    {%elseif $message eq "error_user_or_password"%}
-        密码错误或用户名不正确
-    {%elseif $message eq "please_sign_in"%}
-        请先登陆
-    {%elseif $message eq "update_password_success"%}
-        修改密码成功
-    {%/if%}
-{%/if%} -->
-</div>
+<div id="message" >{%error_message($message)%}</div>
 {%include file='client/share/_footer.html'%}
