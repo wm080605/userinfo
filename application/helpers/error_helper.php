@@ -23,7 +23,7 @@ function error_message($data)
             $message = '账户未进行忘记密码操作';
             break;
         case 'email_send_fail':
-            $message = '发送失败，请重发';
+            $message = '发送失败,请重发';
             break;
         case 'email_send_success':
             $message = '链接已发送';
@@ -41,7 +41,7 @@ function error_message($data)
             $message = '激活失败';
             break;
         case 'register_success':
-            $message = '注册成功';
+            $message = '注册成功,请前往邮箱激活';
             break;
         case 'register_fail':
             $message = '注册失败';

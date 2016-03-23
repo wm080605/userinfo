@@ -11,9 +11,9 @@ class Logic_user extends CI_Model
         return $this->db->get('user')->result_array();
     }
 
-    public function add($data)
+    public function add($userdata)
     {
-        $this->db->insert('user', $data);
+        $this->db->insert('user', $userdata);
         return $this->db->insert_id();
     }
 
