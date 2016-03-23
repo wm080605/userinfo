@@ -16,6 +16,9 @@ function error_message($data)
         case 'update_password_success':
             $message = '修改密码成功';
             break;
+        case 'update_password_fail':
+            $message = '修改密码失败';
+            break;
         case 'email_not_exist':
             $message = '邮箱不存在';
             break;

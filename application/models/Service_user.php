@@ -100,7 +100,7 @@ class Service_user extends CI_Model
         //item()获取email配置项  
         $email_config = $this->config->item('email');
         $this->load->library('email');
-        // $this->email->from($email_config['from']);
+        $this->email->from($email_config['from']);
         $this->email->to($data['email']);
         $this->email->subject('用户帐号激活');
 
@@ -171,7 +171,7 @@ class Service_user extends CI_Model
             $userdata = array(
                     'name' => $data['username'],
                     'email' => $data['email'],
-                    'password' =>md5($data['password']),
+                    'password' => md5($data['password']),
                     'createtime' => date("Y-m-d H:i:s"),
                     'token_out_time' => $token_out_time,
                     'token' => $token
@@ -256,29 +256,36 @@ class Service_user extends CI_Model
             $token_out_time = $this->create_token_out_time();
             $token = $this->create_token();
             $data = array(
-                    'token' =>$token,
-                    'token_out_time' =>$token_out_time,
+                    'token' => $token,
+                    'token_out_time' => $token_out_time,
             );
-            $this->Logic_user->update_user($data, $userdata['id']);
-            $data = array(
-                'email' => $userdata['email'],
-                'name' => $userdata['name'],
-                'token' => $token
-            );
-            $result = $this->send_email($data);
-            if($result == FALSE)
+            $update_result = $this->Logic_user->update_user($data, $userdata['id']);
+            if($update_result)
             {
                 $data = array(
-                    'token' =>NULL,
-                    'token_out_time' =>NULL
+                    'email' => $userdata['email'],
+                    'name' => $userdata['name'],
+                    'token' => $token
                 );
-                $this->Logic_user->update_user($data, $userdata['id']);
-                $result = 'email_send_fail';
+                $result = $this->send_email($data);
+                if($result == FALSE)
+                {
+                    $data = array(
+                        'token' => NULL,
+                        'token_out_time' => NULL
+                    );
+                    $this->Logic_user->update_user($data, $userdata['id']);
+                    $result = 'email_send_fail';
+                }
+                else
+                {
+                    $result = 'email_send_success';
+                }
             }
             else
             {
-                $result = 'email_send_success';
-            }
+                $result = 'email_send_fail';
+            } 
         }
         else
         {
@@ -387,16 +394,17 @@ class Service_user extends CI_Model
             $update_result = $this->Logic_user->update_user($data, $userdata['id']);
             if($update_result)
             {
-                return 'update_password_success';
+                $result = 'update_password_success';
             }
             else
             {
-                return 'update_password_fail';
+                $result = 'update_password_fail';
             } 
         }
         else
         {   
-            return 'email_not_exist_or_not_authentication';
+            $result = 'email_not_exist_or_not_authentication';
         }
+        return $result;
     }
 }
