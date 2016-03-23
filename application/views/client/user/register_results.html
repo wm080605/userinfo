@@ -1,12 +1,4 @@
 {%include file='client/share/_header.html'%}
-<div id="message">
-<!-- {%if isset($message)%}
-    {%if $message eq "register_success"%}
-        注册成功!!!!
-    {%elseif $message eq "register_fail"%}
-        注册失败!!!!
-    {%/if%}
-{%/if%} -->
-</div>
+<div id="message">{%error_message($message)%}</div>
 <a class="btn btn-primary" role="button" href="{%site_url('client/user')%}">返 回</a>
 {%include file='client/share/_footer.html'%}

@@ -200,7 +200,6 @@ class User extends CI_Controller
     public function set_new_password()
     {
         $data = $this->session->flashdata('message');
-        var_dump($data);
         $this->load->helper('error');
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('client/user/update_password.html');
