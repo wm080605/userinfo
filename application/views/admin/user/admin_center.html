@@ -1,26 +1,36 @@
 {%include file='admin/share/_header.html'%}
-    <table border="1" class="table table-hover">
-        <tr>
-            <td>Id</td>
-            <td>Name</td>
-            <td>Password</td>
-            <td>Email</td>
-            <td>CreateTime</td>
-        </tr>
-        {%foreach from=$result item=item%}
-        <tr>
-            <td>{%$item.id%}</td>
-            <td>{%$item.name%}</td>
-            <td>{%$item.password%}</td>
-            <td>{%$item.email%}</td>
-            <td>{%$item.createtime%}</td>
-        </tr>
-        {%/foreach%}
-    </table>
-    <a class="btn btn-primary" role="button" href="{%base_url('client/user/sign_out')%}">退 出</a>
-{%if isset($message)%}
-    {%if $message eq "please_sign_out"%}
-    <div id="message">请先退出</div>
-    {%/if%}
-{%/if%}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="">User</a></li> 
+                <li><a href="{%site_url('client/user/sign_out')%}">退 出</a></li> 
+            </ul>
+        </div>
+    </div>
+</div>
+<table border="1" class="table table-hover">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Password</td>
+        <td>Email</td>
+        <td>CreateTime</td>
+    </tr>
+    {%foreach from=$result item=item%}
+    <tr>
+        <td>{%$item.id%}</td>
+        <td>{%$item.name%}</td>
+        <td>{%$item.password%}</td>
+        <td>{%$item.email%}</td>
+        <td>{%$item.createtime%}</td>
+    </tr>
+    {%/foreach%}
+</table>
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center'>首页 </a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$last%}'>上一页 </a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$next%}'>下一页 </a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$page_all_num%}'>尾页 </a>|
+共{%$page_all_num%}页,当前是{%$page%}第页
+<div id="message">{%error_message($message)%}</div>
 {%include file='admin/share/_footer.html'%}

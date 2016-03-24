@@ -52,6 +52,9 @@ function error_message($data)
         case 'email_not_exist _or_activation':
             $message = '邮箱不存在或已激活';
             break;
+        case 'please_sign_out':
+            $message = '请先退出';
+            break;
         default:
         $message = '';
             break;

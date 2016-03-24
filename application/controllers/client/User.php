@@ -105,6 +105,7 @@ class User extends CI_Controller
         {
             $this->cismarty->assign('name', $data['name']);
             $data = $this->session->flashdata('message');
+            $this->load->helper('error');
             $this->cismarty->assign('message', $data);
             $this->cismarty->display('client/user/user_center.html');
         }
