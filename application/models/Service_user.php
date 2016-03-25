@@ -407,4 +407,35 @@ class Service_user extends CI_Model
         }
         return $result;
     }
+
+    public function page($page)
+    {
+        //获取当前页页数
+        $page = empty($this->input->get('page')) ? 1 : $this->input->get('page');
+        $all_num = $this->Logic_user->count_num();
+        //每页显示条数    
+        $page_num = 2;
+        $page_all_num = ceil($all_num/$page_num);
+        if($page > $page_all_num)
+        {
+            echo "error";
+            return;
+        }
+        else
+        {
+            $offset = ($page-1)*$page_num;
+            $result = $this->Logic_user->paging($page_num, $offset);
+            $next = $page >= $page_all_num ? $page_all_num : $page + 1;
+            $last = $page <= 1 ? 1 : $page - 1;
+
+            $data = array(
+                'result' => $result,
+                'next' => $next,
+                'page_all_num' => $page_all_num,
+                'last' => $last,
+                'page' => $page
+            );
+            return $data;
+        }
+    }
 }

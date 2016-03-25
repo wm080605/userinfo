@@ -1,36 +1,35 @@
 {%include file='admin/share/_header.html'%}
 <div class="container">
     <div class="row">
-        <div class="span6">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="">User</a></li> 
+        <div class="span8">
+            <ul class="nav nav-pills" >
+                <li class="active"><a href="http://local.userinfo.com/index.php/admin/user/admin_center">User</a></li> 
+                <li><a href="#">guanli  </a></li> 
                 <li><a href="{%site_url('client/user/sign_out')%}">退 出</a></li> 
             </ul>
         </div>
     </div>
 </div>
-<table border="1" class="table table-hover">
+<table border="1" class="table table-hover" style="width: 80%">
     <tr>
         <td>Id</td>
         <td>Name</td>
-        <td>Password</td>
         <td>Email</td>
         <td>CreateTime</td>
     </tr>
-    {%foreach from=$result item=item%}
+    {%foreach from=$result['result'] item=item%}
     <tr>
         <td>{%$item.id%}</td>
         <td>{%$item.name%}</td>
-        <td>{%$item.password%}</td>
         <td>{%$item.email%}</td>
         <td>{%$item.createtime%}</td>
     </tr>
     {%/foreach%}
 </table>
-<a href='http://local.userinfo.com/index.php/admin/user/admin_center'>首页 </a> | 
-<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$last%}'>上一页 </a> | 
-<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$next%}'>下一页 </a> | 
-<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$page_all_num%}'>尾页 </a>|
-共{%$page_all_num%}页,当前是{%$page%}第页
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center'>首页</a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$result['last']%}'>上一页 </a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$result['next']%}'>下一页 </a> | 
+<a href='http://local.userinfo.com/index.php/admin/user/admin_center?page={%$result['page_all_num']%}'>尾页</a>|
+共{%$result['page_all_num']%}页,当前是{%$result['page']%}第页
 <div id="message">{%error_message($message)%}</div>
 {%include file='admin/share/_footer.html'%}
