@@ -3,22 +3,9 @@ class User extends CI_Controller
 {
     public function admin_center()
     {
-        $data = $this->session->userdata('user');
-        if($data != NULL && $data['isadmin'] == TRUE)
+        $login_data = $this->session->userdata('user');
+        if($login_data != NULL && $login_data['isadmin'] == TRUE)
         {
-            $this->load->model('Service_user');
-            $this->load->helper('error');
-            $page = $this->input->get('page');
-            $data = $this->Service_user->page($page);
-
-            $result = array(
-                'next' => $data['next'],
-                'last' => $data['last'],
-                'page_all_num' => $data['page_all_num'],
-                'page' => $data['page'],
-                'result' => $data['result']
-            );
-            $this->cismarty->assign('result', $result);
             $data = $this->session->flashdata('message');
             $this->cismarty->assign('message', $data);
             $this->cismarty->display('admin/user/admin_center.html');
@@ -30,8 +17,13 @@ class User extends CI_Controller
         }
     }
 
-    public function userinfo()
+    public function user_info()
     {
-        $result = $this->Service_user->admin_center();
+        $page = $this->input->get('page');
+        $this->load->model('Service_user');
+        $data = $this->Service_user->page($page);
+
+        $this->cismarty->assign('result', $data);
+        $this->cismarty->display('admin/user/user_info.html');
     }
 }

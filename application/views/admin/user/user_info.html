@@ -1,0 +1,30 @@
+{%include file='admin/share/_header.html'%}
+<table class="table table-condensed">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>CreateTime</td>
+    </tr>
+    {%foreach from=$result['result'] item=item%}
+    <tr>
+        <td>{%$item.id%}</td>
+        <td>{%$item.name%}</td>
+        <td>{%$item.email%}</td>
+        <td>{%$item.createtime%}</td>
+    </tr>
+    {%/foreach%}
+</table>
+<a class="page" href='{%site_url('admin/user/user_info')%}'>首页</a> |
+<a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['pre_page']%}'>上一页 </a> | 
+<a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['next_page']%}'>下一页 </a> | 
+<a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['page_all_num']%}'>尾页</a>|
+共{%$result['page_all_num']%}页,当前是第{%$result['current_page']%}页
+<script>
+$(".page").click(function(event){
+    //preventDefault防止链接打开 URL
+    event.preventDefault();
+    $("#show").load(this.href);
+    });
+</script>
+{%include file='admin/share/_footer.html'%}

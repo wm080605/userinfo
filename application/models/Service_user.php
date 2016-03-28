@@ -411,31 +411,27 @@ class Service_user extends CI_Model
     public function page($page)
     {
         //获取当前页页数
-        $page = empty($this->input->get('page')) ? 1 : $this->input->get('page');
+        $current_page = isset($page) ? $page : 1;
         $all_num = $this->Logic_user->count_num();
-        //每页显示条数    
+        //每页显示条数
         $page_num = 2;
         $page_all_num = ceil($all_num/$page_num);
-        if($page > $page_all_num)
+        if($current_page > $page_all_num)
         {
-            echo "error";
-            return;
+            $current_page = $page_all_num;
         }
-        else
-        {
-            $offset = ($page-1)*$page_num;
-            $result = $this->Logic_user->paging($page_num, $offset);
-            $next = $page >= $page_all_num ? $page_all_num : $page + 1;
-            $last = $page <= 1 ? 1 : $page - 1;
+        $offset = ($current_page - 1) * $page_num;
+        $result = $this->Logic_user->paging($page_num, $offset);
+        $next_page = $current_page >= $page_all_num ? $page_all_num : $current_page + 1;
+        $pre_page = $current_page <= 1 ? 1 : $current_page - 1;
 
-            $data = array(
-                'result' => $result,
-                'next' => $next,
-                'page_all_num' => $page_all_num,
-                'last' => $last,
-                'page' => $page
-            );
-            return $data;
-        }
+        $data = array(
+            'result' => $result,
+            'next_page' => $next_page,
+            'page_all_num' => $page_all_num,
+            'pre_page' => $pre_page,
+            'current_page' => $current_page
+        );
+        return $data;
     }
 }
