@@ -13,6 +13,7 @@
     </div>
   </div>
 </nav>
+<div class="container">
 <br>
 <br>
 <br>
@@ -28,26 +29,18 @@
         <th>Name</th>
         <th>Email</th>
         <th>CreateTime</th>
-<!--         <td>操作</td> -->
     </tr>
-    {%foreach from=$result['result'] item=item%}
     <tr>
-        <td>{%$item.id%}</td>
-        <td>{%$item.name%}</td>
-        <td>{%$item.email%}</td>
-        <td>{%$item.createtime%}</td>
-<!--         <td>
-            [<a href="">删除</a>]
-            [<a href="">修改</a>]
-        </td> -->
+        <td>{%$result.id%}</td>
+        <td>{%$result.name%}</td>
+        <td>{%$result.email%}</td>
+        <td>{%$result.createtime%}</td>
     </tr>
-    {%/foreach%}
     </table>
-    <a class="page" href='{%site_url('admin/user/user_info')%}'>首页</a> |
-    <a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['pre_page']%}'>上一页 </a> | 
-    <a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['next_page']%}'>下一页 </a> | 
-    <a class="page" href='{%site_url('admin/user/user_info')%}?page={%$result['page_all_num']%}'>尾页</a>|
-    共{%$result['page_all_num']%}页,当前是第{%$result['current_page']%}页
+    <div id="message">
+    <!-- {%if isset($message)%} -->
+        {%error_message($message)%}
+<!--     {%/if%} -->
+    </div>
 </div>
-
 {%include file='admin/share/_footer.html'%}

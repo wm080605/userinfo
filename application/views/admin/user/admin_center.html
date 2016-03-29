@@ -1,25 +1,21 @@
 {%include file='admin/share/_header.html'%}
-<div class="container">
-    <div class="row">
-        <div class="span6">
-            <ul class="nav nav-pills">
-                <li class="active"><a class="user" href="{%site_url('admin/user/user_info')%}">User</a></li> 
-                 <li><a a class="user" href="{%site_url('client/user/register')%}">Register</a></li>
-                 <li><a href="#">Gallery</a></li>
-                 <li><a href="#">Home</a></li>
-                 <li><a href="#">Contact</a></li> 
-                <li><a href="{%site_url('client/user/sign_out')%}">退 出</a></li> 
-            </ul>
-        </div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{%site_url('admin/user/admin_center')%}">管理员中心</a></li>
+        <li><a href="{%site_url('admin/user/user_info')%}">用户列表</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="{%site_url('client/user/sign_out')%}">退 出</a></li>
+      </ul>
+      <center><p style="color: white; margin-top:14px">欢迎用户{%$name%}</p></center>
     </div>
-</div>
-<div id="show"></div>
+  </div>
+</nav>
+<br>
+<br>
+<br>
+<h1>Welcome!!</h1>
 <div id="message">{%error_message($message)%}</div>
-<script>
-$(".user").click(function(event){
-    //preventDefault防止链接打开 URL
-    event.preventDefault();
-    $("#show").load(this.href);
-    });
-</script>
 {%include file='admin/share/_footer.html'%}

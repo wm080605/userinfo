@@ -70,15 +70,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'RUNOOB';
+$active_group = 'default';
 $query_builder = TRUE;
 
-$db['RUNOOB'] = array(
+$db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '127.0.0.1',
 	'username' => 'root',
 	'password' => '123456',
-	'database' => 'RUNOOB',
+	'database' => 'practice',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -55,6 +55,9 @@ function error_message($data)
         case 'please_sign_out':
             $message = '请先退出';
             break;
+        case 'user_not_exist':
+            $message = '用户不存在';
+            break;
         default:
         $message = '';
             break;

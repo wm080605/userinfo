@@ -106,7 +106,7 @@ class Service_user extends CI_Model
 
         $list = array(
             'name' => $data['name'],
-            'link' =>  base_url('client/user/activation').'?token='.$token
+            'link' =>  site_url('client/user/activation').'?token='.$token
             );
         $this->email->message($this->parser->parse('template/register_temp', $list));
 
@@ -135,7 +135,7 @@ class Service_user extends CI_Model
         $this->email->subject('找回密码');
         $list = array(
             'name' => $data['name'],
-            'link' =>  base_url('client/user/reset_password_authentication').'?token='.$token
+            'link' =>  site_url('client/user/reset_password_authentication').'?token='.$token
             );
         $this->email->message($this->parser->parse('template/find_password_temp', $list));
 
@@ -433,5 +433,26 @@ class Service_user extends CI_Model
             'current_page' => $current_page
         );
         return $data;
+    }
+
+    public function user_search($data)
+    {
+        // var_dump($data);die();
+        if($data['name'] && $data['email'] == NULL)
+        {
+            return $this->Logic_user->get_user(array('name' => $data['name']));
+        }
+        if($data['email'] && $data['name'] == NULL)
+        {
+            return $this->Logic_user->get_user(array('email' => $data['email']));
+        }
+        if($data['email'] && $data['name'])
+        {
+            return $this->Logic_user->get_user($data);
+        }
+        else
+        {
+            return NULL;
+        }
     }
 }
