@@ -408,51 +408,34 @@ class Service_user extends CI_Model
         return $result;
     }
 
-    public function page($page)
+    public function page($select_data, $page)
     {
         //获取当前页页数
-        $current_page = isset($page) ? $page : 1;
-        $all_num = $this->Logic_user->count_num();
+        $current_page = isset($page['page']) ? $page['page'] : 1;
+        $current_select_data = isset($page['selectdata']) ? unserialize($page['selectdata']): $select_data;
+        // var_dump($current_select_data);die();
+        $all_num = $this->Logic_user->search_num($current_select_data);
         //每页显示条数
         $page_num = 2;
         $page_all_num = ceil($all_num/$page_num);
-        if($current_page > $page_all_num)
+        if($current_page > $page_all_num && $page_all_num != 0)
         {
             $current_page = $page_all_num;
         }
         $offset = ($current_page - 1) * $page_num;
-        $result = $this->Logic_user->paging($page_num, $offset);
+        $result = $this->Logic_user->paging($current_select_data, $page_num, $offset);
+        // var_dump($result);die();
         $next_page = $current_page >= $page_all_num ? $page_all_num : $current_page + 1;
         $pre_page = $current_page <= 1 ? 1 : $current_page - 1;
-
+        // var_dump($current_select_data);die();
         $data = array(
             'result' => $result,
             'next_page' => $next_page,
             'page_all_num' => $page_all_num,
             'pre_page' => $pre_page,
-            'current_page' => $current_page
+            'current_page' => $current_page,
+            'select_data' => $current_select_data
         );
         return $data;
-    }
-
-    public function user_search($data)
-    {
-        // var_dump($data);die();
-        if($data['name'] && $data['email'] == NULL)
-        {
-            return $this->Logic_user->get_user(array('name' => $data['name']));
-        }
-        if($data['email'] && $data['name'] == NULL)
-        {
-            return $this->Logic_user->get_user(array('email' => $data['email']));
-        }
-        if($data['email'] && $data['name'])
-        {
-            return $this->Logic_user->get_user($data);
-        }
-        else
-        {
-            return NULL;
-        }
     }
 }

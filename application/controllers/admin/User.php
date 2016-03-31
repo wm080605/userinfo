@@ -18,37 +18,19 @@ class User extends CI_Controller
         }
     }
 
-    public function user_info()
+    public function users_list()
     {
-        $page = $this->input->get('page');
-        $this->load->model('Service_user');
-        $data = $this->Service_user->page($page);
-        // var_dump($data);die();
-
         $login_user = $this->session->userdata('user');
         $this->cismarty->assign('name', $login_user['name']);
+
+        $this->load->model('Service_user');
+        $page = $this->input->get();
+        $select_data = $this->input->post();
+        // var_dump($select_data['name']);die();
+        $data = $this->Service_user->page($select_data, $page);
+        // var_dump($data['select_data']);die();
+        $this->cismarty->assign('select_data', $select_data);
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
-    }
-
-    public function user_search()
-    {
-        $name = $this->input->post('name');
-        $email = $this->input ->post('email');
-        $this->load->model('Service_user');
-        $login_user = $this->session->userdata('user');
-        $this->cismarty->assign('name', $login_user['name']);
-        $result = $this->Service_user->user_search(array('name' => $name, 'email' =>$email));
-        if($result == NULL)
-        {
-            $this->cismarty->assign('message', 'user_not_exist');
-            $this->cismarty->assign('result', $result);
-            $this->cismarty->display('admin/user/search_results.html');
-        }
-        else
-        {
-            $this->cismarty->assign('result', $result);
-            $this->cismarty->display('admin/user/search_results.html');
-        }
     }
 }
