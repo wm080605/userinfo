@@ -27,7 +27,7 @@ class Logic_user extends CI_Model
         return $this->db->update('user', $data, array('id' => $user_id));
     }
 
-    public function search_num($select_data)
+    public function count_users_num($select_data)
     {         
         $data = array();
         if(!empty($select_data['name']))
@@ -42,7 +42,7 @@ class Logic_user extends CI_Model
         return $result['num'];
     }
 
-    public function paging($select_data, $page_num, $offset)
+    public function users_list($select_data, $page_num, $offset)
     {
         $data = array();
         if(!empty($select_data['name']))

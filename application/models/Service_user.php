@@ -408,7 +408,7 @@ class Service_user extends CI_Model
         return $result;
     }
 
-    public function select_page($select_data, $page)
+    public function get_users($select_data, $page)
     {
         //每页显示条数
         $page_num = 2;
@@ -416,7 +416,7 @@ class Service_user extends CI_Model
         $current_page = isset($page['page']) ? $page['page'] : 1;
         $current_select_data = isset($page['selectdata']) ? unserialize($page['selectdata']): $select_data;
 
-        $all_num = $this->Logic_user->search_num($current_select_data);
+        $all_num = $this->Logic_user->count_users_num($current_select_data);
         if($all_num == 0)
         {
             $data = array(
@@ -435,9 +435,8 @@ class Service_user extends CI_Model
             {
                 $current_page = $page_all_num;
             }
-
             $offset = ($current_page - 1) * $page_num;
-            $result = $this->Logic_user->paging($current_select_data, $page_num, $offset);
+            $result = $this->Logic_user->users_list($current_select_data, $page_num, $offset);
             $next_page = $current_page >= $page_all_num ? $page_all_num : $current_page + 1;
             $pre_page = $current_page <= 1 ? 1 : $current_page - 1;
 
