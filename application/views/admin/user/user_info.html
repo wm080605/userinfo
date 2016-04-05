@@ -17,8 +17,8 @@
 <br>
 <div>
     {%form_open_multipart('admin/user/users_list','id="search"')%}
-        姓名搜索<input type="text" name='name' value="{%set_value('name')%}"></input>
-        邮箱搜索<input type="text" name='email' value="{%set_value('email')%}"></input>
+        姓名搜索<input type="text" name='name' value="{%implode(array_column($result, 'name'))%}"></input>
+        邮箱搜索<input type="text" name='email' value="{%implode(array_column($result, 'email'))%}"></input>
         <input type="submit" value="搜索" class="btn btn-primary"/>
     {%form_close()%}
     <table class="table table-hover">
@@ -37,22 +37,16 @@
     </tr>
     {%/foreach%}
     </table>
-    {%if empty($result['select_data'])%}
+    {%if $result['page_all_num'] >= 2%}
     <div>
-        <a href='{%site_url('admin/user/users_list')%}'>首页</a> |
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}'>上一页 </a> | 
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}'>下一页 </a> | 
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}'>尾页</a>|
+        <a {%if empty($result['select_data'])%}href='{%site_url('admin/user/users_list')%}'{%else%}href='{%site_url('admin/user/users_list')%}?selectdata={%serialize($result['select_data'])%}'{%/if%}>首页</a> |
+        <a {%if empty($result['select_data'])%}href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}'{%else%}href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}& selectdata={%serialize($result['select_data'])%}'{%/if%}>上一页 </a> | 
+        <a {%if empty($result['select_data'])%}href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}'{%else%}href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}&selectdata={%serialize($result['select_data'])%}'{%/if%}>下一页 </a> | 
+        <a {%if empty($result['select_data'])%}href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}'{%else%}href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}&selectdata={%serialize($result['select_data'])%}'{%/if%}>尾页</a>|
         共{%$result['page_all_num']%}页
     </div>
     {%else%}
-    <div>
-        <a href='{%site_url('admin/user/users_list')%}?selectdata={%serialize($result['select_data'])%}'>首页</a>|
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}& selectdata={%serialize($result['select_data'])%}'>上一页 </a> | 
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}&selectdata={%serialize($result['select_data'])%}'>下一页 </a> | 
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}&selectdata={%serialize($result['select_data'])%}'>尾页</a>|
-        共{%$result['page_all_num']%}页
-    </div>
+    <div></div>
     {%/if%}
 </div>
 {%include file='admin/share/_footer.html'%}

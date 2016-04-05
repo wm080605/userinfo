@@ -408,34 +408,48 @@ class Service_user extends CI_Model
         return $result;
     }
 
-    public function page($select_data, $page)
+    public function select_page($select_data, $page)
     {
+        //每页显示条数
+        $page_num = 2;
         //获取当前页页数
         $current_page = isset($page['page']) ? $page['page'] : 1;
         $current_select_data = isset($page['selectdata']) ? unserialize($page['selectdata']): $select_data;
-        // var_dump($current_select_data);die();
         $all_num = $this->Logic_user->search_num($current_select_data);
-        //每页显示条数
-        $page_num = 2;
-        $page_all_num = ceil($all_num/$page_num);
-        if($current_page > $page_all_num && $page_all_num != 0)
+        
+        if($all_num == 0)
         {
-            $current_page = $page_all_num;
+            $data = array(
+                'result' => NULL,
+                'next_page' => NULL,
+                'page_all_num' => NULL,
+                'pre_page' => NULL,
+                'current_page' => NULL,
+                'select_data' => $current_select_data
+            );
         }
-        $offset = ($current_page - 1) * $page_num;
-        $result = $this->Logic_user->paging($current_select_data, $page_num, $offset);
-        // var_dump($result);die();
-        $next_page = $current_page >= $page_all_num ? $page_all_num : $current_page + 1;
-        $pre_page = $current_page <= 1 ? 1 : $current_page - 1;
-        // var_dump($current_select_data);die();
-        $data = array(
-            'result' => $result,
-            'next_page' => $next_page,
-            'page_all_num' => $page_all_num,
-            'pre_page' => $pre_page,
-            'current_page' => $current_page,
-            'select_data' => $current_select_data
-        );
+        else
+        {
+            $page_all_num = ceil($all_num/$page_num);
+            if($current_page > $page_all_num)
+            {
+                $current_page = $page_all_num;
+            }
+
+            $offset = ($current_page - 1) * $page_num;
+            $result = $this->Logic_user->paging($current_select_data, $page_num, $offset);
+            $next_page = $current_page >= $page_all_num ? $page_all_num : $current_page + 1;
+            $pre_page = $current_page <= 1 ? 1 : $current_page - 1;
+
+            $data = array(
+                'result' => $result,
+                'next_page' => $next_page,
+                'page_all_num' => $page_all_num,
+                'pre_page' => $pre_page,
+                'current_page' => $current_page,
+                'select_data' => $current_select_data
+            );
+        }
         return $data;
     }
 }

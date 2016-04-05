@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-04-03 16:27:15
+<?php /* Smarty version Smarty-3.0.6, created on 2016-04-05 15:21:53
          compiled from "/var/workspace/userinfo/application/views/admin/user/user_info.html" */ ?>
-<?php /*%%SmartyHeaderCode:3459219285700d3e3ee86d0-49340855%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:19296242557036791509a32-79612643%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '314ae2fc10775d1ae6abb2cd7f5984f3fcb9d932' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/user/user_info.html',
-      1 => 1459672033,
+      1 => 1459840204,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '3459219285700d3e3ee86d0-49340855',
+  'nocache_hash' => '19296242557036791509a32-79612643',
   'function' => 
   array (
   ),
@@ -42,9 +42,9 @@ $_smarty_tpl->decodeProperties(array (
 <div>
     <?php echo form_open_multipart('admin/user/users_list','id="search"');?>
 
-        姓名搜索<input type="text" name='name' value="<?php echo set_value('name');?>
+        姓名搜索<input type="text" name='name' value="<?php echo implode(array_column($_smarty_tpl->getVariable('result')->value,'name'));?>
 "></input>
-        邮箱搜索<input type="text" name='email' value="<?php echo set_value('email');?>
+        邮箱搜索<input type="text" name='email' value="<?php echo implode(array_column($_smarty_tpl->getVariable('result')->value,'email'));?>
 "></input>
         <input type="submit" value="搜索" class="btn btn-primary"/>
     <?php echo form_close();?>
@@ -73,42 +73,35 @@ if ($_smarty_tpl->_count($_from) > 0){
     </tr>
     <?php }} ?>
     </table>
-    <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>
+    <?php if ($_smarty_tpl->getVariable('result')->value['page_all_num']>=2){?>
     <div>
-        <a href='<?php echo site_url('admin/user/users_list');?>
-'>首页</a> |
-        <a href='<?php echo site_url('admin/user/users_list');?>
+        <a <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>href='<?php echo site_url('admin/user/users_list');?>
+'<?php }else{ ?>href='<?php echo site_url('admin/user/users_list');?>
+?selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
+'<?php }?>>首页</a> |
+        <a <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>href='<?php echo site_url('admin/user/users_list');?>
 ?page=<?php echo $_smarty_tpl->getVariable('result')->value['pre_page'];?>
-'>上一页 </a> | 
-        <a href='<?php echo site_url('admin/user/users_list');?>
+'<?php }else{ ?>href='<?php echo site_url('admin/user/users_list');?>
+?page=<?php echo $_smarty_tpl->getVariable('result')->value['pre_page'];?>
+& selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
+'<?php }?>>上一页 </a> | 
+        <a <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>href='<?php echo site_url('admin/user/users_list');?>
 ?page=<?php echo $_smarty_tpl->getVariable('result')->value['next_page'];?>
-'>下一页 </a> | 
-        <a href='<?php echo site_url('admin/user/users_list');?>
+'<?php }else{ ?>href='<?php echo site_url('admin/user/users_list');?>
+?page=<?php echo $_smarty_tpl->getVariable('result')->value['next_page'];?>
+&selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
+'<?php }?>>下一页 </a> | 
+        <a <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>href='<?php echo site_url('admin/user/users_list');?>
 ?page=<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
-'>尾页</a>|
+'<?php }else{ ?>href='<?php echo site_url('admin/user/users_list');?>
+?page=<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
+&selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
+'<?php }?>>尾页</a>|
         共<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
 页
     </div>
     <?php }else{ ?>
-    <div>
-        <a href='<?php echo site_url('admin/user/users_list');?>
-?selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
-'>首页</a>|
-        <a href='<?php echo site_url('admin/user/users_list');?>
-?page=<?php echo $_smarty_tpl->getVariable('result')->value['pre_page'];?>
-& selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
-'>上一页 </a> | 
-        <a href='<?php echo site_url('admin/user/users_list');?>
-?page=<?php echo $_smarty_tpl->getVariable('result')->value['next_page'];?>
-&selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
-'>下一页 </a> | 
-        <a href='<?php echo site_url('admin/user/users_list');?>
-?page=<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
-&selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
-'>尾页</a>|
-        共<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
-页
-    </div>
+    <div></div>
     <?php }?>
 </div>
 <?php $_template = new Smarty_Internal_Template('admin/share/_footer.html', $_smarty_tpl->smarty, $_smarty_tpl, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null);

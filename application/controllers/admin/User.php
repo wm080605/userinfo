@@ -21,13 +21,12 @@ class User extends CI_Controller
     public function users_list()
     {
         $login_user = $this->session->userdata('user');
-        $this->cismarty->assign('name', $login_user['name']);
 
-        $this->load->model('Service_user');
         $page = $this->input->get();
         $select_data = $this->input->post();
-        $data = $this->Service_user->page($select_data, $page);
-        $this->cismarty->assign('select_data', $select_data);
+        $this->load->model('Service_user');
+        $data = $this->Service_user->select_page($select_data, $page);
+        $this->cismarty->assign('name', $login_user['name']);
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
     }

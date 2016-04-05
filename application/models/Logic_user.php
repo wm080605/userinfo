@@ -29,63 +29,31 @@ class Logic_user extends CI_Model
 
     public function search_num($select_data)
     {         
-        if(isset($select_data))
+        $data = array();
+        if(!empty($select_data['name']))
         {
-            if(!empty($select_data['name']) && empty($select_data['email']))
-            {
-                $data = array('name' => $select_data['name']);
-                $result = count($this->db->get_where('user', $data)->result_array());
-            }
-            if(!empty($select_data['email']) && empty($select_data['name']))
-            {
-                $data = array('email' => $select_data['email']);
-                $result = count($this->db->get_where('user', $data)->result_array());
-            }
-            if(!empty($select_data['email']) && !empty($select_data['name']))
-            {
-                $data = $select_data;
-                $result =  count($this->db->get_where('user', $data)->result_array());
-            }
-            if(empty($select_data['name']) && empty($select_data['email']))
-            {
-                $result = $this->db->count_all('user');
-            }
+            $data = array('name' => $select_data['name']);
         }
-        else
+        if(!empty($select_data['email']))
         {
-            $result = $this->db->count_all('user');
+            $data = array('email' => $select_data['email']);
         }
-        return $result;
+        $result = $this->db->select('COUNT(1) AS num')->like($data)->get('user')->row_array();
+        return $result['num'];
     }
 
     public function paging($select_data, $page_num, $offset)
     {
-        if(isset($select_data))
+        $data = array();
+        if(!empty($select_data['name']))
         {
-            if(!empty($select_data['name']) && empty($select_data['email']))
-            {
-                $data = array('name' => $select_data['name']);
-                $result = $this->db->limit($page_num, $offset)->get_where('user', $data)->result_array();
-            }
-            if(!empty($select_data['email']) && empty($select_data['name']))
-            {
-                $data = array('email' => $select_data['email']);
-                $result = $this->db->limit($page_num, $offset)->get_where('user', $data)->result_array();
-            }
-            if(!empty($select_data['email']) && !empty($select_data['name']))
-            {
-                $data = $select_data;
-                $result =  $this->db->limit($page_num, $offset)->get_where('user', $data)->result_array();
-            }
-            if(empty($select_data['name']) && empty($select_data['email']))
-            {
-                $result = $this->db->limit($page_num, $offset)->get('user')->result_array();
-            }
+            $data = array('name' => $select_data['name']);
         }
-        else
+        if(!empty($select_data['email']))
         {
-           $result = $this->db->limit($page_num, $offset)->get('user')->result_array();
+            $data = array('email' => $select_data['email']);
         }
+        $result = $this->db->limit($page_num, $offset)->like($data)->get('user')->result_array();
         return $result;
     }
 }
