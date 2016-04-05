@@ -29,5 +29,6 @@ class User extends CI_Controller
         $this->cismarty->assign('name', $login_user['name']);
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
+        // var_dump($data['select_data']);
     }
 }

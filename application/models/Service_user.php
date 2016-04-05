@@ -415,8 +415,8 @@ class Service_user extends CI_Model
         //获取当前页页数
         $current_page = isset($page['page']) ? $page['page'] : 1;
         $current_select_data = isset($page['selectdata']) ? unserialize($page['selectdata']): $select_data;
+
         $all_num = $this->Logic_user->search_num($current_select_data);
-        
         if($all_num == 0)
         {
             $data = array(

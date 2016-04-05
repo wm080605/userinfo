@@ -32,11 +32,11 @@ class Logic_user extends CI_Model
         $data = array();
         if(!empty($select_data['name']))
         {
-            $data = array('name' => $select_data['name']);
+            $data['name'] = $select_data['name'];
         }
         if(!empty($select_data['email']))
         {
-            $data = array('email' => $select_data['email']);
+            $data['email'] = $select_data['email'];
         }
         $result = $this->db->select('COUNT(1) AS num')->like($data)->get('user')->row_array();
         return $result['num'];
@@ -47,11 +47,11 @@ class Logic_user extends CI_Model
         $data = array();
         if(!empty($select_data['name']))
         {
-            $data = array('name' => $select_data['name']);
+            $data['name'] = $select_data['name'];
         }
         if(!empty($select_data['email']))
         {
-            $data = array('email' => $select_data['email']);
+            $data['email'] = $select_data['email'];
         }
         $result = $this->db->limit($page_num, $offset)->like($data)->get('user')->result_array();
         return $result;
