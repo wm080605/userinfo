@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-31 18:49:45
+<?php /* Smarty version Smarty-3.0.6, created on 2016-04-03 16:27:15
          compiled from "/var/workspace/userinfo/application/views/admin/user/user_info.html" */ ?>
-<?php /*%%SmartyHeaderCode:97378164856fd00c93f3e69-89901905%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:3459219285700d3e3ee86d0-49340855%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '314ae2fc10775d1ae6abb2cd7f5984f3fcb9d932' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/user/user_info.html',
-      1 => 1459421381,
+      1 => 1459672033,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '97378164856fd00c93f3e69-89901905',
+  'nocache_hash' => '3459219285700d3e3ee86d0-49340855',
   'function' => 
   array (
   ),
@@ -29,11 +29,10 @@ $_smarty_tpl->decodeProperties(array (
 ">用户列表</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="<?php echo site_url('client/user/sign_out');?>
-">退 出</a></li>
       </ul>
-      <center><p style="color: white; margin-top:14px">欢迎用户<?php echo $_smarty_tpl->getVariable('name')->value;?>
-</p></center>
+      <p class="list"><a href="<?php echo site_url('client/user/sign_out');?>
+">退 出</a>欢迎用户<?php echo $_smarty_tpl->getVariable('name')->value;?>
+</p>
     </div>
   </div>
 </nav>
@@ -43,8 +42,10 @@ $_smarty_tpl->decodeProperties(array (
 <div>
     <?php echo form_open_multipart('admin/user/users_list','id="search"');?>
 
-        姓名搜索<input type="text" name='name' value=""></input>
-        邮箱搜索<input type="text" name="email" value=""></input>
+        姓名搜索<input type="text" name='name' value="<?php echo set_value('name');?>
+"></input>
+        邮箱搜索<input type="text" name='email' value="<?php echo set_value('email');?>
+"></input>
         <input type="submit" value="搜索" class="btn btn-primary"/>
     <?php echo form_close();?>
 
@@ -72,7 +73,7 @@ if ($_smarty_tpl->_count($_from) > 0){
     </tr>
     <?php }} ?>
     </table>
-    <?php if (empty(set_value('name'))&&empty(set_value('email'))){?>
+    <?php if (empty($_smarty_tpl->getVariable('result',null,true,false)->value['select_data'])){?>
     <div>
         <a href='<?php echo site_url('admin/user/users_list');?>
 '>首页</a> |
@@ -86,7 +87,6 @@ if ($_smarty_tpl->_count($_from) > 0){
 ?page=<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
 '>尾页</a>|
         共<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
-页,当前是第<?php echo $_smarty_tpl->getVariable('result')->value['current_page'];?>
 页
     </div>
     <?php }else{ ?>
@@ -107,7 +107,6 @@ if ($_smarty_tpl->_count($_from) > 0){
 &selectdata=<?php echo serialize($_smarty_tpl->getVariable('result')->value['select_data']);?>
 '>尾页</a>|
         共<?php echo $_smarty_tpl->getVariable('result')->value['page_all_num'];?>
-页,当前是第<?php echo $_smarty_tpl->getVariable('result')->value['current_page'];?>
 页
     </div>
     <?php }?>

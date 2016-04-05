@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2016-03-31 13:16:55
+<?php /* Smarty version Smarty-3.0.6, created on 2016-04-03 15:43:53
          compiled from "/var/workspace/userinfo/application/views/admin/user/admin_center.html" */ ?>
-<?php /*%%SmartyHeaderCode:129702482256fcb2c73aaa01-74554620%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:21447010695700c9b9d523f7-54309784%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8f2d88709233ffffa5be98a0814da11ddf31a15f' => 
     array (
       0 => '/var/workspace/userinfo/application/views/admin/user/admin_center.html',
-      1 => 1459395801,
+      1 => 1459669418,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '129702482256fcb2c73aaa01-74554620',
+  'nocache_hash' => '21447010695700c9b9d523f7-54309784',
   'function' => 
   array (
   ),
@@ -29,11 +29,10 @@ $_smarty_tpl->decodeProperties(array (
 ">用户列表</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="<?php echo site_url('client/user/sign_out');?>
-">退 出</a></li>
       </ul>
-      <center><p style="color: white; margin-top:14px">欢迎用户<?php echo $_smarty_tpl->getVariable('name')->value;?>
-</p></center>
+      <p class="list"><a href="<?php echo site_url('client/user/sign_out');?>
+">退 出</a>欢迎用户<?php echo $_smarty_tpl->getVariable('name')->value;?>
+</p>
     </div>
   </div>
 </nav>

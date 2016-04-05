@@ -7,9 +7,8 @@
         <li class="active"><a href="{%site_url('admin/user/users_list')%}">用户列表</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="{%site_url('client/user/sign_out')%}">退 出</a></li>
       </ul>
-      <center><p style="color: white; margin-top:14px">欢迎用户{%$name%}</p></center>
+      <p class="list"><a href="{%site_url('client/user/sign_out')%}">退 出</a>欢迎用户{%$name%}</p>
     </div>
   </div>
 </nav>
@@ -18,8 +17,8 @@
 <br>
 <div>
     {%form_open_multipart('admin/user/users_list','id="search"')%}
-        姓名搜索<input type="text" name='name' value=""></input>
-        邮箱搜索<input type="text" name="email" value=""></input>
+        姓名搜索<input type="text" name='name' value="{%set_value('name')%}"></input>
+        邮箱搜索<input type="text" name='email' value="{%set_value('email')%}"></input>
         <input type="submit" value="搜索" class="btn btn-primary"/>
     {%form_close()%}
     <table class="table table-hover">
@@ -38,13 +37,13 @@
     </tr>
     {%/foreach%}
     </table>
-    {%if empty(set_value('name')) && empty(set_value('email'))%}
+    {%if empty($result['select_data'])%}
     <div>
         <a href='{%site_url('admin/user/users_list')%}'>首页</a> |
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}'>上一页 </a> | 
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}'>下一页 </a> | 
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}'>尾页</a>|
-        共{%$result['page_all_num']%}页,当前是第{%$result['current_page']%}页
+        共{%$result['page_all_num']%}页
     </div>
     {%else%}
     <div>
@@ -52,7 +51,7 @@
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}& selectdata={%serialize($result['select_data'])%}'>上一页 </a> | 
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}&selectdata={%serialize($result['select_data'])%}'>下一页 </a> | 
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}&selectdata={%serialize($result['select_data'])%}'>尾页</a>|
-        共{%$result['page_all_num']%}页,当前是第{%$result['current_page']%}页
+        共{%$result['page_all_num']%}页
     </div>
     {%/if%}
 </div>

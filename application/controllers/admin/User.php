@@ -26,9 +26,7 @@ class User extends CI_Controller
         $this->load->model('Service_user');
         $page = $this->input->get();
         $select_data = $this->input->post();
-        // var_dump($select_data['name']);die();
         $data = $this->Service_user->page($select_data, $page);
-        // var_dump($data['select_data']);die();
         $this->cismarty->assign('select_data', $select_data);
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
