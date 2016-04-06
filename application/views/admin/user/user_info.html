@@ -8,7 +8,8 @@
         <li><a href="#contact">Contact</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <p class="list"><a href="{%site_url('client/user/sign_out')%}">退 出</a>欢迎用户{%$name%}</p>
+      <a class="list" href="{%site_url('client/user/sign_out')%}">退 出</a>
+      <a class="list" href="{%site_url('admin/user/admin_center')%}">{%$name%}</a>
     </div>
   </div>
 </nav>
@@ -43,7 +44,7 @@
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}{%if !empty($result['select_data'])%}& selectdata={%serialize($result['select_data'])%}{%/if%}'>上一页 </a>|
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>下一页 </a>|
         <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>尾页</a>|
-        共{%$result['page_all_num']%}页
+        当前是第{%$result['current_page']%}页
     </div>
     {%else%}
     <div></div>

@@ -161,6 +161,8 @@ class Service_user extends CI_Model
         // return  time();
     }
 
+    // public function 
+
     public function register($data)
     {
         $register_validation_result = $this->register_validation();

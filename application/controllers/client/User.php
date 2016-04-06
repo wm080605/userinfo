@@ -10,7 +10,7 @@ class User extends CI_Controller
     public function index()
     {
         
-        $data = $this->session->userdata('user');
+        $data = $this->session->userdata('login_user');
         if($data)
         {
             $this->session->set_flashdata('message', 'please_sign_out');
@@ -48,7 +48,7 @@ class User extends CI_Controller
         {
             if($userdata['status'] == TRUE)
             {
-                $this->session->set_userdata('user', $userdata);
+                $this->session->set_userdata('login_user', $userdata);
                 if($userdata['isadmin'] == TRUE)
                 {
                     redirect('admin/user/admin_center');

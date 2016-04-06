@@ -27,22 +27,7 @@ class Logic_user extends CI_Model
         return $this->db->update('user', $data, array('id' => $user_id));
     }
 
-    public function count_users_num($select_data)
-    {         
-        $data = array();
-        if(!empty($select_data['name']))
-        {
-            $data['name'] = $select_data['name'];
-        }
-        if(!empty($select_data['email']))
-        {
-            $data['email'] = $select_data['email'];
-        }
-        $result = $this->db->select('COUNT(1) AS num')->like($data)->get('user')->row_array();
-        return $result['num'];
-    }
-
-    public function users_list($select_data, $page_num, $offset)
+    public function create_select_data($select_data)
     {
         $data = array();
         if(!empty($select_data['name']))
@@ -53,6 +38,18 @@ class Logic_user extends CI_Model
         {
             $data['email'] = $select_data['email'];
         }
+        return $data;
+    }
+    public function count_users_num($select_data)
+    {         
+        $data = $this->create_select_data($select_data);
+        $result = $this->db->select('COUNT(1) AS num')->like($data)->get('user')->row_array();
+        return $result['num'];
+    }
+
+    public function users_list($select_data, $page_num, $offset)
+    {
+        $data = $this->create_select_data($select_data);
         $result = $this->db->limit($page_num, $offset)->like($data)->get('user')->result_array();
         return $result;
     }

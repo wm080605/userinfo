@@ -1,26 +1,29 @@
 <?php
 class User extends CI_Controller
 {
-    public function admin_center()
+    function __construct()
     {
-        $login_user = $this->session->userdata('user');
-        if($login_user != NULL && $login_user['isadmin'] == TRUE)
-        {
-            $data = $this->session->flashdata('message');
-            $this->cismarty->assign('name', $login_user['name']);
-            $this->cismarty->assign('message', $data);
-            $this->cismarty->display('admin/user/admin_center.html');
-        }
-        else
+        parent::__construct();
+        $login_user = $this->session->userdata('login_user');
+        if($login_user == NULL || $login_user['isadmin'] == FALSE)
         {
             $this->session->set_flashdata('message','please_sign_in');
             redirect('client/user');
         }
     }
 
+    public function admin_center()
+    {
+        $login_user = $this->session->userdata('login_user');
+        $data = $this->session->flashdata('message');
+        $this->cismarty->assign('name', $login_user['name']);
+        $this->cismarty->assign('message', $data);
+        $this->cismarty->display('admin/user/admin_center.html');
+    }
+
     public function users_list()
     {
-        $login_user = $this->session->userdata('user');
+        $login_user = $this->session->userdata('login_user');
 
         $page = $this->input->get();
         $select_data = $this->input->post();
