@@ -40,10 +40,10 @@
     </table>
     {%if $result['page_all_num'] >= 2%}
     <div>
-        <a href='{%site_url('admin/user/users_list')%}{%if !empty($result['select_data'])%}?selectdata={%serialize($result['select_data'])%}{%/if%}'>首页</a> |
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}{%if !empty($result['select_data'])%}& selectdata={%serialize($result['select_data'])%}{%/if%}'>上一页 </a>|
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>下一页 </a>|
-        <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>尾页</a>|
+        <a href='{%site_url('admin/user/users_list')%}{%if !empty($result['select_data'])%}?selectdata={%serialize($result['select_data'])%}{%/if%}'>首页</a>
+        <a href='{%site_url('admin/user/users_list')%}?page={%$result['pre_page']%}{%if !empty($result['select_data'])%}& selectdata={%serialize($result['select_data'])%}{%/if%}'>上一页 </a>
+        <a href='{%site_url('admin/user/users_list')%}?page={%$result['next_page']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>下一页 </a>
+        <a href='{%site_url('admin/user/users_list')%}?page={%$result['page_all_num']%}{%if !empty($result['select_data'])%}&selectdata={%serialize($result['select_data'])%}{%/if%}'>尾页</a>
         当前是第{%$result['current_page']%}页
     </div>
     {%else%}

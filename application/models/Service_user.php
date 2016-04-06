@@ -161,7 +161,10 @@ class Service_user extends CI_Model
         // return  time();
     }
 
-    // public function 
+    public function  login_user_info()
+    {
+        return $this->session->userdata('login_user');
+    }
 
     public function register($data)
     {

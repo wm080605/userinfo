@@ -4,7 +4,8 @@ class User extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $login_user = $this->session->userdata('login_user');
+        $this->load->model('Service_user');
+        $login_user = $this->Service_user->login_user_info();
         if($login_user == NULL || $login_user['isadmin'] == FALSE)
         {
             $this->session->set_flashdata('message','please_sign_in');
@@ -14,7 +15,7 @@ class User extends CI_Controller
 
     public function admin_center()
     {
-        $login_user = $this->session->userdata('login_user');
+        $login_user = $this->Service_user->login_user_info();
         $data = $this->session->flashdata('message');
         $this->cismarty->assign('name', $login_user['name']);
         $this->cismarty->assign('message', $data);
@@ -23,12 +24,11 @@ class User extends CI_Controller
 
     public function users_list()
     {
-        $login_user = $this->session->userdata('login_user');
-
         $page = $this->input->get();
         $select_data = $this->input->post();
         $this->load->model('Service_user');
         $data = $this->Service_user->get_users($select_data, $page);
+        $login_user = $this->Service_user->login_user_info();
         $this->cismarty->assign('name', $login_user['name']);
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
