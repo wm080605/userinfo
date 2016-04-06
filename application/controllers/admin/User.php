@@ -11,13 +11,13 @@ class User extends CI_Controller
             $this->session->set_flashdata('message','please_sign_in');
             redirect('client/user');
         }
+        $this->cismarty->assign('name', $login_user['name']);
     }
 
     public function admin_center()
     {
-        $login_user = $this->Service_user->login_user_info();
         $data = $this->session->flashdata('message');
-        $this->cismarty->assign('name', $login_user['name']);
+        
         $this->cismarty->assign('message', $data);
         $this->cismarty->display('admin/user/admin_center.html');
     }
@@ -26,10 +26,9 @@ class User extends CI_Controller
     {
         $page = $this->input->get();
         $select_data = $this->input->post();
-        $this->load->model('Service_user');
+
         $data = $this->Service_user->get_users($select_data, $page);
-        $login_user = $this->Service_user->login_user_info();
-        $this->cismarty->assign('name', $login_user['name']);
+
         $this->cismarty->assign('result', $data);
         $this->cismarty->display('admin/user/user_info.html');
     }
